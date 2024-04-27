@@ -155,6 +155,7 @@ namespace OW {
 		HERO_LIFEWEAVER = 0x02E0000000000291,
 		HERO_ILLARI = 0x02e000000000031c,
 		HERO_MAUGA = 0x02e000000000030a,
+		HERO_VENTURE = 0x2E000000000032B,
 		TOBTERT = 0x16dd,
 		SYMTERT = 0x16ee,
 		Bob = 0x16bb,
@@ -197,44 +198,17 @@ namespace OW {
 	};
 
 
-	const char* keys = (u8"ÉÏ²à¼ü");
-	const char* key_type[] = { (u8"×ó¼ü"), (u8"ÓÒ¼ü"),  (u8"ÖÐ¼ü"),  (u8"ÏÂ²à¼ü"),  (u8"ÉÏ²à¼ü") };
+	const char* keys = (u8"X2");
+	const char* key_type[] = { (u8"LEFT"), (u8"RIGHT"),  (u8"MIDDLE"),  (u8"X1"),  (u8"X2") };
 
-	const char* keys2 = (u8"ÏÂ²à¼ü");
-	const char* key_type2[] = { (u8"×ó¼ü"), (u8"ÓÒ¼ü"),  (u8"ÖÐ¼ü"),  (u8"ÏÂ²à¼ü"),  (u8"ÉÏ²à¼ü") };
+	const char* keys2 = (u8"X1");
+	const char* key_type2[] = { (u8"LEFT"), (u8"RIGHT"),  (u8"MIDDLE"),  (u8"X1"),  (u8"X2") };
 
-	const char* keys3 = (u8"×ó¼ü");
-	const char* key_type3[] = { (u8"×ó¼ü"), (u8"ÓÒ¼ü"),  (u8"Shift"),  (u8"E"),(u8"Q") };
+	const char* keys3 = (u8"LEFT");
+	const char* key_type3[] = { (u8"LEFT"), (u8"RIGHT"),  (u8"Shift"),  (u8"E"),(u8"Q") };
 
 	const char* espop = (u8"¹Ø±Õ");
 	const char* espop_type[] = { (u8"¹Ø±Õ"), (u8"ÂÖÀª"),  (u8"Ä£ÐÍ"),  (u8"ÑÚ¶úµÁÁåÄ£Ê½") };
-
-
-
-	enum class AlphaMode : uint64_t
-	{
-		Opaque = 0xFFFFF0,
-		Translucent = 0xFFFBBE,
-		Transparent = 0xFFFFFF
-	};
-
-	class MaterialPrimitive
-	{
-	public:
-		int32_t Index;
-		char pad[0x28];
-		bool bDepthEnabled = true;
-		char pad_d0[0xD0];
-		float Opacity;
-		char pad_2b[0x2B8];
-		uint64_t Mode;
-		void Set(uint64_t hash)
-		{
-			// 0x50CAD495B460B305 glp_glow
-			//Enlighten::SetMaterialIndexed(this, MATERIAL_HASH(hash));
-		}
-	};
-
 
 	struct espBone {
 		bool boneerror = false;
@@ -531,6 +505,8 @@ namespace OW {
 			case eHero::HERO_TORBJORN:
 				return std::array<int, 18>{BONE_HEAD, BONE_NECK, BONE_BODY, BONE_BODY_BOT, BONE_L_SHOULDER, BONE_R_SHOULDER, BONE_L_ELBOW, BONE_R_ELBOW, BONE_L_ANKLE, BONE_R_ANKLE, BONE_L_SHANK, BONE_R_SHANK, 28, BONE_R_HAND, 99, 89, 100, 90};
 			case eHero::HERO_TRACER:
+				return std::array<int, 18>{BONE_HEAD, BONE_NECK, BONE_BODY, BONE_BODY_BOT, BONE_L_SHOULDER, BONE_R_SHOULDER, BONE_L_ELBOW, BONE_R_ELBOW, BONE_L_ANKLE, BONE_R_ANKLE, BONE_L_SHANK, BONE_R_SHANK, BONE_L_HAND, BONE_R_HAND, 99, 89, 100, 90};
+			case eHero::HERO_VENTURE:
 				return std::array<int, 18>{BONE_HEAD, BONE_NECK, BONE_BODY, BONE_BODY_BOT, BONE_L_SHOULDER, BONE_R_SHOULDER, BONE_L_ELBOW, BONE_R_ELBOW, BONE_L_ANKLE, BONE_R_ANKLE, BONE_L_SHANK, BONE_R_SHANK, BONE_L_HAND, BONE_R_HAND, 99, 89, 100, 90};
 			case eHero::HERO_WIDOWMAKER:
 				return std::array<int, 18>{BONE_HEAD, BONE_NECK, BONE_BODY, BONE_BODY_BOT, BONE_L_SHOULDER, BONE_R_SHOULDER, BONE_L_ELBOW, BONE_R_ELBOW, BONE_L_ANKLE, BONE_R_ANKLE, BONE_L_SHANK, BONE_R_SHANK, BONE_L_HAND, BONE_R_HAND, 99, 89, 100, 90};

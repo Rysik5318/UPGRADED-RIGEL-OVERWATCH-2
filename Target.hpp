@@ -6,7 +6,7 @@
 namespace OW {
 	inline void SetKey(uint32_t key) {
 		__try {
-			SDK->WPM<uint32_t>(SDK->g_player_controller + 0x1244, key);
+			SDK->WPM<uint32_t>(SDK->g_player_controller + 0x112C, key);
 		}
 		__except (EXCEPTION_EXECUTE_HANDLER) {}
 	}
@@ -92,7 +92,7 @@ namespace OW {
 		clock_t previous = clock();
 		Key += 0x2;
 		while (clock() - previous < duration) {
-			SDK->WPM<uint32_t>(SDK->g_player_controller + 0x1244, Key);
+			SDK->WPM<uint32_t>(SDK->g_player_controller + 0x112C, Key);
 			if (Config::horizonreco) {
 				SDK->WPM<float>(local_entity.AngleBase + 0x1768, 0);
 			}
@@ -102,7 +102,7 @@ namespace OW {
 		}
 		if (Config::widowautounscope) {
 			while (clock() - previous < 100) {
-				SDK->WPM<uint32_t>(SDK->g_player_controller + 0x1244, 0);
+				SDK->WPM<uint32_t>(SDK->g_player_controller + 0x112C, 0);
 			}
 		}
 	}
@@ -110,7 +110,7 @@ namespace OW {
 	inline void SetKeyHold(int Key, float duration) {
 		clock_t previous = clock();
 		while (clock() - previous < duration) {
-			SDK->WPM<uint32_t>(SDK->g_player_controller + 0x1244, Key);
+			SDK->WPM<uint32_t>(SDK->g_player_controller + 0x112C, Key);
 			if (Config::horizonreco) {
 				SDK->WPM<float>(local_entity.AngleBase + 0x1768, 0);
 			}
@@ -321,7 +321,7 @@ namespace OW {
 			{
 				if (Config::hanzoautospeed) {
 					if (local_entity.HeroID == eHero::HERO_HANJO) {
-						Config::predit_level = readult(local_entity.SkillBase + 0x50, 0xC, 0x2A5) * 85.f + 25.f;
+						Config::predit_level = readult(local_entity.SkillBase + 0x40, 0xB, 0x2A5) * 85.f + 25.f;
 						if (local_entity.skill2act) Config::predit_level = 110.f;
 					}
 				}

@@ -17,19 +17,20 @@ static std::tm timet_to_tm(time_t timestamp);
 const std::string compilation_date = (std::string)skCrypt(__DATE__);
 const std::string compilation_time = (std::string)skCrypt(__TIME__);
 
-using namespace KeyAuth;
+/*using namespace KeyAuth;
 
-std::string name = "Rigel"; // application name. right above the blurred text aka the secret on the licenses tab among other tabs
-std::string ownerid = ""; // ownerid, found in account settings. click your profile picture on top right of dashboard and then account settings.
-std::string secret = ""; // app secret, the blurred text on licenses tab and other tabs
-std::string version = "10.0"; // leave alone unless you've changed version on website
-std::string url = skCrypt("https://keyauth.win/api/1.2/").decrypt(); // change if you're self-hosting
+auto name = skCrypt("Fart Life");
+auto ownerid = skCrypt("f2xkEdn27f");
+auto secret = skCrypt("db33eed6ce5518b451f4d209e4bcaa04a25a31e0be360d9d3e01f35011c12400");
+auto version = skCrypt("1.0");
+auto url = skCrypt("https://keyauth.win/api/1.2/"); */
+
 void MainThread() {
 	using namespace OW;
-	std::cout << "Launch in Main Menu and go to Practice range..\n";
+	std::cout << "Launch in Main Menu and go to Practice Range..\n";
 	while (!SDK->Initialize() || !SDK->GetGlobalKey())
 	{
-		std::cout << "Waiting..\n";
+		std::cout << "Waiting Overwatch..\n";
 		Sleep(2000);
 	}
 
@@ -50,7 +51,7 @@ void MainThread() {
 	{
 		auto viewMatrixVal = SDK->RPM<uint64_t>(SDK->dwGameBase + offset::Address_viewmatrix_base) ^ offset::offset_viewmatrix_xor_key;
 		viewMatrixVal = SDK->RPM<uint64_t>(viewMatrixVal + 0x5C0);
-		viewMatrixVal = SDK->RPM<uint64_t>(viewMatrixVal + 0x118);
+		viewMatrixVal = SDK->RPM<uint64_t>(viewMatrixVal + 0x48);
 		//mutex.lock();
 		viewMatrix_xor_ptr = viewMatrixVal + 0x130;
 		//mutex.unlock();
@@ -71,15 +72,15 @@ void MainThread() {
 	Video to use Web Loader (control loader from customer panel) https://youtu.be/9-qgmsUUCK4
 */
 
-api KeyAuthApp(name, ownerid, secret, version, url);
+//api KeyAuthApp(name.decrypt(), ownerid.decrypt(), secret.decrypt(), version.decrypt(), url.decrypt());
 
 int main()
 {
 	if (!OW::Config::loginornot) MainThread();
-	std::string consoleTitle = (std::string)skCrypt("RigelExternal Ver:  ") + compilation_date;
+	std::string consoleTitle = (std::string)skCrypt("Loader - Built at:  ") + compilation_date + " " + compilation_time;
 	SetConsoleTitleA(consoleTitle.c_str());
 	std::cout << skCrypt("\n\nConnecting to server..");
-	KeyAuthApp.init();
+	/*KeyAuthApp.init();
 
 	if (!KeyAuthApp.data.success)
 	{
@@ -93,7 +94,7 @@ int main()
 
 	if (KeyAuthApp.checkblack()) {
 		abort();
-	}
+	}*/
 
 
 	//std::cout << skCrypt("\n\n App data:");
@@ -101,10 +102,10 @@ int main()
 	//std::cout << skCrypt("\n Number of online users: ") << KeyAuthApp.data.numOnlineUsers;
 	//std::cout << skCrypt("\n Number of keys: ") << KeyAuthApp.data.numKeys;
 	//std::cout << skCrypt("\n 当前版本: ") << KeyAuthApp.data.version;
-	std::cout << skCrypt("\n Loader Ready. ") << KeyAuthApp.data.version;
+	//std::cout << skCrypt("\n Loader Ready. ") << KeyAuthApp.data.version;
 	//std::cout << skCrypt("\n Customer panel link: ") << KeyAuthApp.data.customerPanelLink;
 	//std::cout << skCrypt("\n Checking session validation status (remove this if causing your loader to be slow)");
-	KeyAuthApp.check();
+	/*KeyAuthApp.check();
 	std::cout << skCrypt("\n Status: ") << KeyAuthApp.data.message;
 
 	if (std::filesystem::exists(".\\test.json")) //change test.txt to the path of your file :smile:
@@ -184,7 +185,7 @@ int main()
 	std::cout << skCrypt("\n Checking..");
 	KeyAuthApp.check();
 	std::cout << skCrypt("\n Status: ") << KeyAuthApp.data.message;
-    
+	*/
 	#pragma region example functions
 
 	
