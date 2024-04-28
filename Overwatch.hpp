@@ -2381,7 +2381,6 @@ namespace OW {
 							if (Config::loginornot && (expiretime - nowtime) < 0) abort();
 							ImGui::Text(u8"FPS: %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 							ImGui::PopStyleColor();
-							ImGui::End();
 						}
 					}
 					ImGui::End();
