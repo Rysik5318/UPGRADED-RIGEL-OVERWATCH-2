@@ -7,9 +7,6 @@ namespace OW {
 		bool LoggedIn = false;
 		int got = 0;
 
-		bool namespoofer = false;
-		char fakename[] = u8"ÁÔ»§×ùÓÃ»§#1234";
-
 		uint8_t trytoplus = 0;
 
 		bool enablechangefov = false;

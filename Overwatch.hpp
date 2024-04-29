@@ -245,6 +245,7 @@ namespace OW {
 					entity.skill1act = IsSkillActive(entity.SkillBase + 0x40, 0, 0x28E3);
 					entity.skill2act = IsSkillActive(entity.SkillBase + 0x40, 0, 0x28E9);
 					entity.ultimate = readult(entity.SkillBase + 0x40, 0, 0x1e32);
+
 					if (entity.HeroID == eHero::HERO_SOMBRA && entity.Team && !Config::Rage && !Config::fov360 && !Config::silent && !Config::fakesilent) {
 						entity.Vis = (entity.Vis && !IsSkillActivate1(entity.SkillBase + 0x40, 0, 0x7C5));
 					}
@@ -350,12 +351,6 @@ namespace OW {
 						entity.skillcd2 = readskillcd(entity.SkillBase + 0x40, 0, 0x1f89);
 						local_entity = entity;
 						Config::reloading = IsSkillActivate1(local_entity.SkillBase + 0x40, 0, 0x4BF);
-
-						if (Config::namespoofer) {
-							local_entity.statcombase = DecryptComponent(LinkParent, TYPE_STAT);
-							uintptr_t off = SDK->RPM<uintptr_t>(local_entity.statcombase + 0xE0);
-							SDK->write_buf(off, Config::fakename, sizeof(Config::fakename));
-						}
 
 						//std::cout << GetHeroNames(entity.HeroID, entity.LinkBase).c_str() << " shift CD:" << SkillCD(entity.SkillBase, 0, 0x189C) << "\n";
 						//std::cout << GetHeroNames(entity.HeroID, entity.LinkBase).c_str() << " E CD." << SkillCD(entity.SkillBase, 0, 0x1F89) << "\n";
@@ -1712,15 +1707,6 @@ namespace OW {
 									ImGui::EndCombo();
 								}
 
-								//ImGui::BulletText(skCrypt(u8"Fov"));
-								//ImGui::SliderFloat(skCrypt(u8"Fov数值"), &Config::Fov, 0.f, 500.f, skCrypt("%.3f"));
-
-								//ImGui::SliderFloat(skCrypt(u8"HitBox大小控制"), &Config::hitbox, 0.12f, 0.28f, skCrypt("%.3f"));
-								//ImGui::SliderFloat(skCrypt(u8"HitBox大小控制"), &Config::hitbox, 0.05f, 0.28f, skCrypt("%.3f"));
-								//ImGui::SameLine(); Render::Help(skCrypt(u8"调整开枪范围，建议0.12-0.28，谨慎调整到0.3以上，打不准"));
-								//ImGui::BulletText(skCrypt(u8"瞄准速度"));
-								//ImGui::SliderFloat(skCrypt(u8"跟枪速度"), &Config::Tracking_smooth, 0.f, 3.f, skCrypt("%.2f"));
-								//ImGui::SliderFloat(skCrypt(u8"甩枪速度"), &Config::Flick_smooth, 0.f, 3.f, skCrypt("%.2f"));
 								ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.4f, 0.6f, 1.f, 1.0f));
 								ImGui::Spacing();
 								ImGui::Spacing();
@@ -1875,10 +1861,6 @@ namespace OW {
 								ImGui::Toggle(skCrypt(u8"Secondary aim on/off"), &Config::secondaim, ImGuiToggleFlags_Animated);
 								ImGui::PopStyleColor(1);
 								if (Config::secondaim) {
-									//ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(153.f / 255.f, 153.f / 255.f, 255.f / 255.f, 255.f / 255.f));
-									//ImGui::BulletText(Config::nowhero.data());
-									//ImGui::PopStyleColor(1);
-									//ImGui::Spacing();
 									ImGui::Spacing();
 									ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.f, 0.f, 0.f, 1.0f));
 									ImGui::Toggle(skCrypt(u8"High priority"), &Config::highPriority, ImGuiToggleFlags_Animated);
@@ -2073,19 +2055,6 @@ namespace OW {
 							}
 							if (subindex == 3) {
 								ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.f, 0.f, 0.f, 1.0f));
-								/*ImGui::Toggle(skCrypt(u8"Backtrack"), &Config::trackback, ImGuiToggleFlags_Animated);
-								if (Config::trackback) {
-									TCHAR bufsave[100];
-									//_stprintf(bufsave, _T("%d"), (int)(t*1000+100));
-									_stprintf(bufsave, _T("%d"), 1);
-									WritePrivateProfileString(_T("Section1"), _T("enabletrackback"), bufsave, _T("C:\\ProgramData\\KEY.ini"));
-								}
-								else {
-									TCHAR bufsave[100];
-									//_stprintf(bufsave, _T("%d"), (int)(t*1000+100));
-									_stprintf(bufsave, _T("%d"), 0);
-									WritePrivateProfileString(_T("Section1"), _T("enabletrackback"), bufsave, _T("C:\\ProgramData\\KEY.ini"));
-								}*/
 								ImGui::Toggle(skCrypt(u8"AI AIM(Beta)"), &Config::aiaim, ImGuiToggleFlags_Animated);
 								ImGui::Toggle(skCrypt(u8"Auto FOV"), &Config::autoscalefov, ImGuiToggleFlags_Animated);
 								if (!Config::autoscalefov) {
@@ -2120,12 +2089,11 @@ namespace OW {
 								else Config::widowautounscope = false;
 							}
 						}
+						// ESP
 						if (tab_index == 2) {
-							/*ImGui::Checkbox(skCrypt(u8"玩家信息"), &Config::draw_info);
-							ImGui::Checkbox(skCrypt(u8"骨骼透视"), &Config::draw_skel);
-							ImGui::Checkbox(skCrypt(u8"技能信息"), &Config::skillinfo);*/
+
 							ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.f, 0.f, 0.f, 1.0f));
-							//ImGui::Toggle(skCrypt(u8"玩家信息"), &Config::draw_info, ImGuiToggleFlags_Animated);
+
 							ImGui::Toggle(skCrypt(u8"Info"), &Config::draw_info, ImGuiToggleFlags_Animated);
 							if (Config::draw_info) {
 								ImGui::Spacing();
@@ -2156,71 +2124,9 @@ namespace OW {
 							else Config::radarline = false;
 							ImGui::Toggle(skCrypt(u8"Ult info"), &Config::skillinfo, ImGuiToggleFlags_Animated);
 							ImGui::PopStyleColor(1);
-							/*ImGui::Checkbox(skCrypt(u8"轮廓透视"), &Config::outline);
-							if (Config::outline) {
-								TCHAR buf[100];
-								_stprintf(buf, _T("%d"), 1);
-								WritePrivateProfileString(_T("Section1"), _T("esp"), buf, _T("C:\\ProgramData\\KEY.ini"));
-							}
-							else {
-									TCHAR buf[100];
-									_stprintf(buf, _T("%d"), 0);
-									WritePrivateProfileString(_T("Section1"), _T("esp"), buf, _T("C:\\ProgramData\\KEY.ini"));
-							}*/
 							ImGui::Spacing();
-							/*ImGui::BulletText(skCrypt(u8"轮廓透视选项"));
-							if (ImGui::BeginCombo(skCrypt(u8"选择："), espop))
-							{
-								for (int i = 0; i < 4; i++)
-								{
-									const bool type = espop == espop_type[i];
-									if (ImGui::Selectable(espop_type[i], type))
-									{
-										TCHAR buf[100];
-										espop = espop_type[i];
-										switch (i)
-										{
-										case 0:
-											_stprintf(buf, _T("%d"), 0);
-											WritePrivateProfileString(_T("Section1"), _T("esp"), buf, _T("C:\\ProgramData\\KEY.ini"));
-											break;
-										case 1:
-											_stprintf(buf, _T("%d"), 1);
-											WritePrivateProfileString(_T("Section1"), _T("esp"), buf, _T("C:\\ProgramData\\KEY.ini"));
-											break;
-										case 2:
-											_stprintf(buf, _T("%d"), 2);
-											WritePrivateProfileString(_T("Section1"), _T("esp"), buf, _T("C:\\ProgramData\\KEY.ini"));
-											break;
-										case 3:
-											_stprintf(buf, _T("%d"), 3);
-											WritePrivateProfileString(_T("Section1"), _T("esp"), buf, _T("C:\\ProgramData\\KEY.ini"));
-											break;
-										}
-									}
-								}
-								ImGui::EndCombo();
-							}ImGui::Spacing();
-							ImGui::Spacing();
-							ImGui::Spacing();
-							ImGui::Checkbox(skCrypt(u8"外部轮廓透视"), &Config::externaloutline);
-							ImGui::Checkbox(skCrypt(u8"方框透视"), &Config::draw_edge);
-							ImGui::Checkbox(skCrypt(u8"3D方框透视"), &Config::drawbox3d);
-							ImGui::Checkbox(skCrypt(u8"目标连线"), &Config::drawline);
-							ImGui::ColorEdit3(skCrypt(u8"方框颜色"), (float*)&Config::EnemyCol);
-							ImGui::Checkbox(skCrypt(u8"显示Fov圆圈"), &Config::draw_fov);*/
 							ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.f, 0.f, 0.f, 1.0f));
-							/*ImGui::Toggle(skCrypt(u8"Sombra Esp"), &Config::outline, ImGuiToggleFlags_Animated);
-							if (Config::outline) {
-								TCHAR buf[100];
-								_stprintf(buf, _T("%d"), 1);
-								WritePrivateProfileString(_T("Section1"), _T("esp"), buf, _T("C:\\ProgramData\\KEY.ini"));
-							}
-							else if (!Config::outline) {
-								TCHAR buf[100];
-								_stprintf(buf, _T("%d"), 0);
-								WritePrivateProfileString(_T("Section1"), _T("esp"), buf, _T("C:\\ProgramData\\KEY.ini"));
-							}*/
+
 							ImGui::Toggle(skCrypt(u8"HeadShotLine"), &Config::eyeray, ImGuiToggleFlags_Animated);
 							ImGui::Toggle(skCrypt(u8"Enemy/Ally Outline"), &Config::externaloutline, ImGuiToggleFlags_Animated);
 							ImGui::Toggle(skCrypt(u8"Only Ally Outline"), &Config::teamoutline, ImGuiToggleFlags_Animated);
@@ -2252,69 +2158,33 @@ namespace OW {
 							ImGui::SliderFloat(skCrypt(u8"Ally Highlight"), &Config::allyargb.w, 0.0f, 1.f, skCrypt("%.2f"));
 							ImGui::Separator();
 						}
+						// Rage
 						if (tab_index == 3) {
-							//ImGui::Checkbox(skCrypt(u8"我没有想要赢，我只是不想输"), &Config::Rage);
+
 							ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.f, 0.f, 0.f, 1.0f));
 							ImGui::Toggle(skCrypt(u8"Aim Instantly"), &Config::Rage, ImGuiToggleFlags_Animated);
 							ImGui::SameLine(); Render::Help(skCrypt(u8"Aim Instantly"));
+
 							if (Config::Rage) {
 								ImGui::Toggle(skCrypt(u8"Fake Silent"), &Config::fakesilent, ImGuiToggleFlags_Animated);
 							}
-							//ImGui::Checkbox(skCrypt(u8"360度瞄准"), &Config::fov360);
+
 							ImGui::Toggle(skCrypt(u8"Non fov limit"), &Config::fov360, ImGuiToggleFlags_Animated);
-							/*ImGui::SameLine(); Render::Help(skCrypt(u8"Set fov to 6000"));
-							if (Config::fov360) {
-								Config::Fov = 6000;
-								Config::Fov2 = 6000;
-							}*/
 							if (!Config::fov360 && Config::Fov == 6000) Config::Fov = 200;
 							if (!Config::fov360 && Config::Fov2 == 6000) Config::Fov2 = 200;
 							ImGui::BulletText(skCrypt(u8"Risky"));
-							//ImGui::Toggle(skCrypt(u8"Silent"), &Config::silent, ImGuiToggleFlags_Animated);
-							//ImGui::Checkbox(skCrypt(u8"静默自瞄"), &Config::silent);
-							//ImGui::SameLine(); Render::Help(skCrypt(u8"Disable trackback at first"));
-							/*if (Config::silent) {
-								Config::Tracking = false;
-								Config::hanzo_flick = false;
-								Config::Flick = false;
-								Config::triggerbot = false;
-								Config::trackback = false;
-								//ImGui::Checkbox(skCrypt(u8"AntiAim反自瞄AA"), &Config::Antiaim);
-								ImGui::Toggle(skCrypt(u8"Tracking Silent"), &Config::silenttrace, ImGuiToggleFlags_Animated);
-								ImGui::Toggle(skCrypt(u8"AntiAim AA"), &Config::Antiaim, ImGuiToggleFlags_Animated);
-								ImGui::SameLine(); Render::Help(skCrypt(u8"SpinBot"));
-								if (Config::Antiaim) {
-									TCHAR buf[100];
-									_stprintf(buf, _T("%d"), 1);
-									WritePrivateProfileString(_T("Section1"), _T("antiaim"), buf, _T("C:\\ProgramData\\KEY.ini"));
-								}
-								else {
-									TCHAR buf[100];
-									_stprintf(buf, _T("%d"), 0);
-									WritePrivateProfileString(_T("Section1"), _T("antiaim"), buf, _T("C:\\ProgramData\\KEY.ini"));
-								}
-							}
-							else {
-								Config::silenttrace = false;
-								Config::Antiaim = false;
-								TCHAR buf[100];
-								_stprintf(buf, _T("%d"), 0);
-								WritePrivateProfileString(_T("Section1"), _T("antiaim"), buf, _T("C:\\ProgramData\\KEY.ini"));
-							}*/
 							ImGui::PopStyleColor(1);
 						}
 						if (tab_index == 4) {
 							ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.f, 0.f, 0.f, 1.0f));
 							ImGui::BulletText(skCrypt(u8"Play more legit"));
-							//ImGui::Checkbox(skCrypt(u8"自动瞄准最近部位"), &Config::autobone);
-							//ImGui::Checkbox(skCrypt(u8"自动空枪(甩枪适用）"), &Config::dontshot);
-
+							
 							ImGui::Toggle(skCrypt(u8"Auto miss FLICK ONLY"), &Config::dontshot, ImGuiToggleFlags_Animated);
 
 							ImGui::SliderFloat(skCrypt(u8"miss hitbox(missbox)"), &Config::missbox, 0.f, 1.f, skCrypt("%.2f"));
 							ImGui::SliderInt(skCrypt(u8"miss frequency"), &Config::shotmanydont, 0, 6);
 							ImGui::Spacing();
-							//ImGui::Checkbox(skCrypt(u8"切换目标延迟毫秒"), &Config::targetdelay);
+							
 							ImGui::Toggle(skCrypt(u8"Switching target delay"), &Config::targetdelay, ImGuiToggleFlags_Animated);
 
 							ImGui::SliderInt(skCrypt(u8"Delay(ms)"), &Config::targetdelaytime, 0, 1000, skCrypt("%.2f"));
@@ -2327,34 +2197,25 @@ namespace OW {
 						}
 						if (tab_index == 5) {
 							ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.f, 0.f, 0.f, 1.0f));
-							//ImGui::Checkbox(skCrypt(u8"瞄准己方"), &Config::switch_team);
 
-							//ImGui::Checkbox(skCrypt(u8"自动近战"), &Config::AutoMelee);
 							ImGui::Toggle(skCrypt(u8"Change ingame fov"), &Config::enablechangefov, ImGuiToggleFlags_Animated);
 							if (Config::enablechangefov)
-								ImGui::SliderFloat(skCrypt(u8":degree"), &Config::CHANGEFOV, 1.f, 179.f, skCrypt("%.2f"));
-
-							ImGui::Toggle(skCrypt(u8"Name Spoofer"), &Config::namespoofer, ImGuiToggleFlags_Animated);
-							if (Config::namespoofer) {
-								ImGui::InputText(u8"Spoof Name", Config::fakename, sizeof(Config::fakename));
-							}
+								ImGui::SliderFloat(skCrypt(u8"Degrees (Default: 103)"), &Config::CHANGEFOV, 1.f, 179.f, skCrypt("%.2f"));
 
 							ImGui::Toggle(skCrypt(u8"Auto melee"), &Config::AutoMelee, ImGuiToggleFlags_Animated);
 							ImGui::PopStyleColor(1);
 							ImGui::SliderFloat(skCrypt(u8"Auto melee HP"), &Config::meleehealth, 0.f, 80.f, skCrypt("%.2f"));
 							ImGui::SliderFloat(skCrypt(u8"Auto melee dist"), &Config::meleedistance, 0.f, 10.f, skCrypt("%.2f"));
-							//ImGui::Checkbox(skCrypt(u8"自动技能"), &Config::AutoSkill);
+
 							ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.f, 0.f, 0.f, 1.0f));
 							ImGui::Toggle(skCrypt(u8"Auto Heal Skill"), &Config::AutoSkill, ImGuiToggleFlags_Animated);
-							ImGui::SliderFloat(skCrypt(u8"Auto Heal Skill Trigger HP"), &Config::SkillHealth, 0.f, 80.f, skCrypt("%.2f"));
+							ImGui::SliderFloat(skCrypt(u8"Auto Heal Skill Trigger HP"), &Config::SkillHealth, 0.f, 350.f, skCrypt("%.2f"));
 							ImGui::PopStyleColor(1);
 							
 							if (ImGui::Button(u8"Manual Save"))
 							{
 								Config::manualsave = true;
-								//ImGui::PushFont(font1);
 								ImGui::InsertNotification({ ImGuiToastType_Success, 3000, skCrypt(u8"Manual saved successfully"), "" });
-								//ImGui::PopFont();
 							}
 							ImGui::BulletText(skCrypt(u8"Press when nothing is working"));
 							if (ImGui::Button(u8"Reboot thread")) {
@@ -2369,14 +2230,8 @@ namespace OW {
 								ImGui::InsertNotification({ ImGuiToastType_Success, 3000, skCrypt(u8"Reboot Successfully"), "" });
 							}
 
-							//ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.f, 0.f, 0.f, 1.0f));
-							//ImGui::Toggle(skCrypt(u8"来点音乐"), &Config::musicplay, ImGuiToggleFlags_Animated);
-
-							//ImGui::PopStyleColor(1);
-							//nowtime = time(nullptr);
 							ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(colora5 / 255.f, colorb5 / 255.f, colorc5 / 255.f, 255.f / 255.f));
-							//ImGui::Text(u8"剩余时间：%d天%d小时%d分钟%d秒", (expiretime - nowtime) / 60 / 60 / 24, ((expiretime - nowtime) / 60 / 60) % 24, ((expiretime - nowtime) / 60) % 60, (expiretime - nowtime) % 60);
-							//if (Config::loginornot && (expiretime - nowtime) < 0) abort();
+							
 							ImGui::Text(u8"Expires in：%dDays %dHours %dMins %dSecs", (expiretime - nowtime) / 60 / 60 / 24, ((expiretime - nowtime) / 60 / 60) % 24, ((expiretime - nowtime) / 60) % 60, (expiretime - nowtime) % 60);
 							if (Config::loginornot && (expiretime - nowtime) < 0) abort();
 							ImGui::Text(u8"FPS: %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
@@ -2416,7 +2271,6 @@ namespace OW {
 			int hitbotdelaytime = 0;
 			int afterdelaytime = 0;
 			bool dodelay = 0;
-			TCHAR buf[100];
 			Vector2 CrossHair = Vector2(GetSystemMetrics(SM_CXSCREEN) / 2.0f, GetSystemMetrics(SM_CYSCREEN) / 2.0f);
 			static float origin_sens = 0.f;
 			while (true) {
@@ -2496,15 +2350,11 @@ namespace OW {
 										SDK->WPM<Vector3>(SDK->g_player_controller + 0x1170, Target);
 									float dist = Vector3(viewMatrix_xor.get_location().x, viewMatrix_xor.get_location().y, viewMatrix_xor.get_location().z).DistTo(vec);
 									if (Config::health <= Config::meleehealth && dist <= Config::meleedistance && Config::AutoMelee) {
-										//std::cout << Config::health << " " << dist << std::endl;
-										//SDK->WPM<float>(GetSenstivePTR(), 0);
 										SetKey(0x800);
-										//SDK->WPM<float>(GetSenstivePTR(), origin_sens);
 									}
 
 								}
 								if (local_entity.PlayerHealth < Config::SkillHealth) {
-									//mutex.unlock();
 									break;
 								}
 							}
@@ -2583,14 +2433,14 @@ namespace OW {
 								if (Config::aiaim) {
 									int x;
 									if (rand() % 10 > 5)
-										Target.X += (double)(rand()) / RAND_MAX / 300;
-									else Target.X -= (double)(rand()) / RAND_MAX / 300;
+										Target.X += (float)(rand()) / RAND_MAX / 300;
+									else Target.X -= (float)(rand()) / RAND_MAX / 300;
 									if (rand() % 10 > 5)
-										Target.Y += (double)(rand()) / RAND_MAX / 300;
-									else Target.Y -= (double)(rand()) / RAND_MAX / 300;
+										Target.Y += (float)(rand()) / RAND_MAX / 300;
+									else Target.Y -= (float)(rand()) / RAND_MAX / 300;
 									if (rand() % 10 > 5)
-										Target.Z += (double)(rand()) / RAND_MAX / 300;
-									else Target.Z -= (double)(rand()) / RAND_MAX / 300;
+										Target.Z += (float)(rand()) / RAND_MAX / 300;
+									else Target.Z -= (float)(rand()) / RAND_MAX / 300;
 									if (Config::minFov1 > 500)Config::minFov1 = 500;
 									if (Config::Fov > 500)Config::Fov = 500;
 									if (Config::minFov2 > 500)Config::minFov1 = 500;
@@ -2643,7 +2493,6 @@ namespace OW {
 										if (Config::lockontarget) SDK->WPM<float>(GetSenstivePTR(), 0);
 										if (local_entity.HeroID == eHero::HERO_GENJI || local_entity.HeroID == eHero::HERO_KIRIKO) {
 											SetKey(0x2);
-											//if (!Config::sskilled) Sleep(10);
 											if (Config::dontshot) Config::shotcount++;
 										}
 										else {
@@ -2741,14 +2590,14 @@ namespace OW {
 								if (Config::aiaim) {
 									int x;
 									if (rand() % 10 > 5)
-										Target.X += (double)(rand()) / RAND_MAX / 300;
-									else Target.X -= (double)(rand()) / RAND_MAX / 300;
+										Target.X += (float)(rand()) / RAND_MAX / 300;
+									else Target.X -= (float)(rand()) / RAND_MAX / 300;
 									if (rand() % 10 > 5)
-										Target.Y += (double)(rand()) / RAND_MAX / 300;
-									else Target.Y -= (double)(rand()) / RAND_MAX / 300;
+										Target.Y += (float)(rand()) / RAND_MAX / 300;
+									else Target.Y -= (float)(rand()) / RAND_MAX / 300;
 									if (rand() % 10 > 5)
-										Target.Z += (double)(rand()) / RAND_MAX / 300;
-									else Target.Z -= (double)(rand()) / RAND_MAX / 300;
+										Target.Z += (float)(rand()) / RAND_MAX / 300;
+									else Target.Z -= (float)(rand()) / RAND_MAX / 300;
 									if (Config::minFov1 > 500)Config::minFov1 = 500;
 									if (Config::Fov > 500)Config::Fov = 500;
 									if (Config::minFov2 > 500)Config::minFov1 = 500;
@@ -2923,7 +2772,7 @@ namespace OW {
 										if (Config::Rage) SDK->WPM<Vector3>(SDK->g_player_controller + 0x1170, vec_calc_target);
 										else SDK->WPM<Vector3>(SDK->g_player_controller + 0x1170, Target);
 									}
-									if (!local_entity.skillcd1 && in_range(local_angle, vec_calc_target, local_loc, vec, 0.8)) {
+									if (!local_entity.skillcd1 && in_range(local_angle, vec_calc_target, local_loc, vec, 0.8f)) {
 										if (detecttoggle && !first) {
 											detecttoggle = 0;
 											Sleep(50);
@@ -3005,10 +2854,7 @@ namespace OW {
 						if (vec != Vector3(0, 0, 0) && entities[Config::Targetenemyi].Team) {
 							float dist = Vector3(viewMatrix_xor.get_location().x, viewMatrix_xor.get_location().y, viewMatrix_xor.get_location().z).DistTo(vec);
 							if (Config::health <= Config::meleehealth && dist <= Config::meleedistance) {
-								//std::cout << Config::health << " " << dist << std::endl;
-								//SDK->WPM<float>(GetSenstivePTR(), 0);
 								SetKey(0x800);
-								//SDK->WPM<float>(GetSenstivePTR(), origin_sens);
 								Sleep(1);
 							}
 						}
@@ -3029,7 +2875,6 @@ namespace OW {
 										//Config::sskilled = true;
 										SetKeyHold(0x8, 40);
 									}
-									//SDK->WPM<float>(GetSenstivePTR(), origin_sens);
 								}
 								else if (!local_entity.skillcd1 && Config::health <= 80 && dist <= 17 && dist >= 15 && entities[Config::Targetenemyi].HeroID != 0x16dd && entities[Config::Targetenemyi].HeroID != 0x16ee) {
 									//SDK->WPM<float>(GetSenstivePTR(), 0);
@@ -3044,12 +2889,8 @@ namespace OW {
 										Sleep(500);
 										SetKey(0x800);
 									}
-									//SDK->WPM<float>(GetSenstivePTR(), origin_sens);
 								}
 							}
-							//if (local_entity.skill1act) {
-							//	Config::sskilled = true;
-							//}
 						}
 					}
 
@@ -3062,115 +2903,80 @@ namespace OW {
 						}
 						if (local_entity.PlayerHealth < Config::SkillHealth) {
 							if (local_entity.HeroID == eHero::HERO_TRACER && local_entity.PlayerHealth != 0 && !Config::skilled) {
-								//SDK->WPM<float>(GetSenstivePTR(), 0);
 								SetKey(0x10);
-								//SDK->WPM<float>(GetSenstivePTR(), origin_sens);
 								Config::skilled = true;
 								Sleep(1);
 								Config::lasthealth = local_entity.PlayerHealth;
 							}
 							else if (local_entity.HeroID == eHero::HERO_SOMBRA && local_entity.PlayerHealth != 0 && !Config::skilled) {
-								//SDK->WPM<float>(GetSenstivePTR(), 0);
 								SetKey(0x10);
-								//SDK->WPM<float>(GetSenstivePTR(), origin_sens);
 								Config::skilled = true;
 								Sleep(1);
 								Config::lasthealth = local_entity.PlayerHealth;
 							}
 							else if (local_entity.HeroID == eHero::HERO_ROADHOG && local_entity.PlayerHealth != 0 && !Config::skilled) {
-								//SDK->WPM<float>(GetSenstivePTR(), 0);
+								
 								SetKey(0x10);
-								//SDK->WPM<float>(GetSenstivePTR(), origin_sens);
 								Config::skilled = true;
 								Sleep(1);
 								Config::lasthealth = local_entity.PlayerHealth;
 							}
 							else if (local_entity.HeroID == eHero::HERO_TORBJORN && local_entity.PlayerHealth != 0 && !Config::skilled) {
-								//SDK->WPM<float>(GetSenstivePTR(), 0);
 								SetKey(0x10);
-								//SDK->WPM<float>(GetSenstivePTR(), origin_sens);
 								Config::skilled = true;
 								Sleep(1);
 								Config::lasthealth = local_entity.PlayerHealth;
 							}
 							else if (local_entity.HeroID == eHero::HERO_SOLDIER76 && local_entity.PlayerHealth != 0 && !Config::skilled) {
-								//SDK->WPM<float>(GetSenstivePTR(), 0);
 								SetKey(0x10);
-								//SDK->WPM<float>(GetSenstivePTR(), origin_sens);
 								Config::skilled = true;
 								Sleep(1);
 								Config::lasthealth = local_entity.PlayerHealth;
 							}
 							else if (local_entity.HeroID == eHero::HERO_VENTURE && local_entity.PlayerHealth != 0 && !Config::skilled) {
-								//SDK->WPM<float>(GetSenstivePTR(), 0);
 								SetKey(0x10);
-								//SDK->WPM<float>(GetSenstivePTR(), origin_sens);
 								Config::skilled = true;
 								Sleep(1);
 								Config::lasthealth = local_entity.PlayerHealth;
 							}
 							else if (local_entity.HeroID == eHero::HERO_REAPER && local_entity.PlayerHealth != 0 && !Config::skilled) {
-								//SDK->WPM<float>(GetSenstivePTR(), 0);
 								SetKey(0x8);
-								//SDK->WPM<float>(GetSenstivePTR(), origin_sens);
 								Config::skilled = true;
 								Sleep(1);
 								Config::lasthealth = local_entity.PlayerHealth;
 							}
 							else if (local_entity.HeroID == eHero::HERO_MEI && local_entity.PlayerHealth != 0 && !Config::skilled) {
-								//SDK->WPM<float>(GetSenstivePTR(), 0);
 								SetKey(0x8);
-								//SDK->WPM<float>(GetSenstivePTR(), origin_sens);
-								Config::skilled = true;
-								Sleep(1);
-								Config::lasthealth = local_entity.PlayerHealth;
-							}
-							else if (local_entity.HeroID == eHero::HERO_DOOMFIST && local_entity.PlayerHealth != 0 && !Config::skilled) {
-								//SDK->WPM<float>(GetSenstivePTR(), 0);
-								SetKey(0x20);
-								Sleep(10);
-								SetKey(0x10);
-								//SDK->WPM<float>(GetSenstivePTR(), origin_sens);
 								Config::skilled = true;
 								Sleep(1);
 								Config::lasthealth = local_entity.PlayerHealth;
 							}
 							else if (local_entity.HeroID == eHero::HERO_JUNKERQUEEN && local_entity.PlayerHealth != 0 && !Config::skilled) {
-								//SDK->WPM<float>(GetSenstivePTR(), 0);
 								SetKey(0x8);
-								//SDK->WPM<float>(GetSenstivePTR(), origin_sens);
 								Config::skilled = true;
 								Sleep(1);
 								Config::lasthealth = local_entity.PlayerHealth;
 							}
 							else if (local_entity.HeroID == eHero::HERO_MOIRA && local_entity.PlayerHealth != 0 && !Config::skilled) {
-								//SDK->WPM<float>(GetSenstivePTR(), 0);
 								SetKey(0x8);
-								//SDK->WPM<float>(GetSenstivePTR(), origin_sens);
 								Config::skilled = true;
 								Sleep(1);
 								Config::lasthealth = local_entity.PlayerHealth;
 							}
 							else if (local_entity.HeroID == eHero::HERO_ZARYA && local_entity.PlayerHealth != 0 && !Config::skilled) {
-								//SDK->WPM<float>(GetSenstivePTR(), 0);
 								SetKey(0x8);
-								//SDK->WPM<float>(GetSenstivePTR(), origin_sens);
 								Config::skilled = true;
 								Sleep(1);
 								Config::lasthealth = local_entity.PlayerHealth;
 							}
 							else if (local_entity.HeroID == eHero::HERO_WINSTON && local_entity.PlayerHealth != 0 && !Config::skilled) {
-								//SDK->WPM<float>(GetSenstivePTR(), 0);
 								SetKey(0x20);
-								//SDK->WPM<float>(GetSenstivePTR(), origin_sens);
 								Config::skilled = true;
 								Sleep(1);
 								Config::lasthealth = local_entity.PlayerHealth;
 							}
 							else if (local_entity.HeroID == eHero::HERO_ZENYATTA && local_entity.PlayerHealth != 0 && !Config::skilled) {
-								//SDK->WPM<float>(GetSenstivePTR(), 0);
 								SetKey(0x20);
-								//SDK->WPM<float>(GetSenstivePTR(), origin_sens);
 								Config::skilled = true;
 								Sleep(1);
 								Config::lasthealth = local_entity.PlayerHealth;
@@ -3239,14 +3045,14 @@ namespace OW {
 									if (Config::Flick2) {
 										int x;
 										if (rand() % 10 > 5)
-											Target.X += (double)(rand()) / RAND_MAX / 300;
-										else Target.X -= (double)(rand()) / RAND_MAX / 300;
+											Target.X += (float)(rand()) / RAND_MAX / 300;
+										else Target.X -= (float)(rand()) / RAND_MAX / 300;
 										if (rand() % 10 > 5)
-											Target.Y += (double)(rand()) / RAND_MAX / 300;
-										else Target.Y -= (double)(rand()) / RAND_MAX / 300;
+											Target.Y += (float)(rand()) / RAND_MAX / 300;
+										else Target.Y -= (float)(rand()) / RAND_MAX / 300;
 										if (rand() % 10 > 5)
-											Target.Z += (double)(rand()) / RAND_MAX / 300;
-										else Target.Z -= (double)(rand()) / RAND_MAX / 300;
+											Target.Z += (float)(rand()) / RAND_MAX / 300;
+										else Target.Z -= (float)(rand()) / RAND_MAX / 300;
 										if (Config::minFov1 > 500)Config::minFov1 = 500;
 										if (Config::Fov > 500)Config::Fov = 500;
 										if (Config::minFov2 > 500)Config::minFov1 = 500;
@@ -3256,14 +3062,14 @@ namespace OW {
 									else if (Config::Tracking2) {
 										int x;
 										if (rand() % 10 > 5)
-											Target.X += (double)(rand()) / RAND_MAX / 500;
-										else Target.X -= (double)(rand()) / RAND_MAX / 500;
+											Target.X += (float)(rand()) / RAND_MAX / 500;
+										else Target.X -= (float)(rand()) / RAND_MAX / 500;
 										if (rand() % 10 > 5)
-											Target.Y += (double)(rand()) / RAND_MAX / 500;
-										else Target.Y -= (double)(rand()) / RAND_MAX / 500;
+											Target.Y += (float)(rand()) / RAND_MAX / 500;
+										else Target.Y -= (float)(rand()) / RAND_MAX / 500;
 										if (rand() % 10 > 5)
-											Target.Z += (double)(rand()) / RAND_MAX / 500;
-										else Target.Z -= (double)(rand()) / RAND_MAX / 500;
+											Target.Z += (float)(rand()) / RAND_MAX / 500;
+										else Target.Z -= (float)(rand()) / RAND_MAX / 500;
 										if (Config::minFov1 > 500)Config::minFov1 = 500;
 										if (Config::Fov > 500)Config::Fov = 500;
 										if (Config::minFov2 > 500)Config::minFov1 = 500;
@@ -3400,6 +3206,11 @@ namespace OW {
 						WritePrivateProfileString(_T(GetHeroEngNames(Config::lastheroid, local_entity.LinkBase).c_str()), _T("aim_key"), bufsave, _T(".\\config.ini"));
 						_stprintf(bufsave, _T("%d"), (int)Config::Gravitypredit);
 						WritePrivateProfileString(_T(GetHeroEngNames(Config::lastheroid, local_entity.LinkBase).c_str()), _T("Gravitypredit"), bufsave, _T(".\\config.ini"));
+						_stprintf(bufsave, _T("%d"), (int)Config::SkillHealth);
+						WritePrivateProfileString(_T(GetHeroEngNames(Config::lastheroid, local_entity.LinkBase).c_str()), _T("SkillHealth"), bufsave, _T(".\\config.ini"));
+						_stprintf(bufsave, _T("%d"), (int)Config::AutoSkill);
+						WritePrivateProfileString(_T(GetHeroEngNames(Config::lastheroid, local_entity.LinkBase).c_str()), _T("AutoSkill"), bufsave, _T(".\\config.ini"));
+
 						int dec = 0;
 						if (Config::Tracking) dec = 0;
 						else if (Config::Flick) dec = 1;
@@ -3467,6 +3278,11 @@ namespace OW {
 
 						_stprintf(bufsave, _T("%d"), Config::AutoMelee);
 						WritePrivateProfileString(_T(GetHeroEngNames(Config::lastheroid, local_entity.LinkBase).c_str()), _T("AutoMelee"), bufsave, _T(".\\config.ini"));
+						_stprintf(bufsave, _T("%d"), Config::meleedistance);
+						WritePrivateProfileString(_T(GetHeroEngNames(Config::lastheroid, local_entity.LinkBase).c_str()), _T("meleedistance"), bufsave, _T(".\\config.ini"));
+						_stprintf(bufsave, _T("%d"), Config::meleehealth);
+						WritePrivateProfileString(_T(GetHeroEngNames(Config::lastheroid, local_entity.LinkBase).c_str()), _T("meleehealth"), bufsave, _T(".\\config.ini"));
+
 						_stprintf(bufsave, _T("%d"), Config::norecoil);
 						WritePrivateProfileString(_T(GetHeroEngNames(Config::lastheroid, local_entity.LinkBase).c_str()), _T("norecoil"), bufsave, _T(".\\config.ini"));
 						_stprintf(bufsave, _T("%d"), (int)(Config::recoilnum * 10000));
@@ -3655,6 +3471,12 @@ namespace OW {
 					Config::autobone2 = GetPrivateProfileInt(_T(GetHeroEngNames(local_entity.HeroID, local_entity.LinkBase).c_str()), _T("autobone2"), 0, _T(".\\config.ini"));
 
 					Config::AutoMelee = GetPrivateProfileInt(_T(GetHeroEngNames(local_entity.HeroID, local_entity.LinkBase).c_str()), _T("AutoMelee"), 0, _T(".\\config.ini"));
+					Config::meleehealth = GetPrivateProfileInt(_T(GetHeroEngNames(local_entity.HeroID, local_entity.LinkBase).c_str()), _T("meleehealth"), 40, _T(".\\config.ini"));
+					Config::meleedistance = GetPrivateProfileInt(_T(GetHeroEngNames(local_entity.HeroID, local_entity.LinkBase).c_str()), _T("meleedistance"), 3, _T(".\\config.ini"));
+					
+					Config::AutoSkill = GetPrivateProfileInt(_T(GetHeroEngNames(local_entity.HeroID, local_entity.LinkBase).c_str()), _T("AutoSkill"), 0, _T(".\\config.ini"));
+					Config::SkillHealth = GetPrivateProfileInt(_T(GetHeroEngNames(local_entity.HeroID, local_entity.LinkBase).c_str()), _T("SkillHealth"), 150, _T(".\\config.ini"));
+					
 					Config::norecoil = GetPrivateProfileInt(_T(GetHeroEngNames(local_entity.HeroID, local_entity.LinkBase).c_str()), _T("norecoil"), 0, _T(".\\config.ini"));
 					Config::recoilnum = float(GetPrivateProfileInt(_T(GetHeroEngNames(local_entity.HeroID, local_entity.LinkBase).c_str()), _T("recoilnum"), 1000, _T(".\\config.ini"))) / 10000.f;
 					Config::accvalue = float(GetPrivateProfileInt(_T(GetHeroEngNames(local_entity.HeroID, local_entity.LinkBase).c_str()), _T("accvalue"), 7500, _T(".\\config.ini"))) / 10000.f;
@@ -3940,6 +3762,11 @@ namespace OW {
 				WritePrivateProfileString(_T(GetHeroEngNames(Config::lastheroid, local_entity.LinkBase).c_str()), _T("recoilnum"), bufsave, _T(".\\config.ini"));
 				_stprintf(bufsave, _T("%d"), (int)Config::Gravitypredit);
 				WritePrivateProfileString(_T(GetHeroEngNames(Config::lastheroid, local_entity.LinkBase).c_str()), _T("Gravitypredit"), bufsave, _T(".\\config.ini"));
+				_stprintf(bufsave, _T("%d"), (int)Config::SkillHealth);
+				WritePrivateProfileString(_T(GetHeroEngNames(Config::lastheroid, local_entity.LinkBase).c_str()), _T("SkillHealth"), bufsave, _T(".\\config.ini"));
+				_stprintf(bufsave, _T("%d"), (int)Config::AutoSkill);
+				WritePrivateProfileString(_T(GetHeroEngNames(Config::lastheroid, local_entity.LinkBase).c_str()), _T("AutoSkill"), bufsave, _T(".\\config.ini"));
+
 				int dec = 0;
 				if (Config::Tracking) dec = 0;
 				else if (Config::Flick) dec = 1;
@@ -4006,6 +3833,11 @@ namespace OW {
 
 				_stprintf(bufsave, _T("%d"), Config::AutoMelee);
 				WritePrivateProfileString(_T(GetHeroEngNames(Config::lastheroid, local_entity.LinkBase).c_str()), _T("AutoMelee"), bufsave, _T(".\\config.ini"));
+				_stprintf(bufsave, _T("%d"), Config::meleedistance);
+				WritePrivateProfileString(_T(GetHeroEngNames(Config::lastheroid, local_entity.LinkBase).c_str()), _T("meleedistance"), bufsave, _T(".\\config.ini"));
+				_stprintf(bufsave, _T("%d"), Config::meleehealth);
+				WritePrivateProfileString(_T(GetHeroEngNames(Config::lastheroid, local_entity.LinkBase).c_str()), _T("meleehealth"), bufsave, _T(".\\config.ini"));
+				
 				_stprintf(bufsave, _T("%d"), Config::norecoil);
 				WritePrivateProfileString(_T(GetHeroEngNames(Config::lastheroid, local_entity.LinkBase).c_str()), _T("norecoil"), bufsave, _T(".\\config.ini"));
 				_stprintf(bufsave, _T("%d"), (int)(Config::recoilnum * 10000));

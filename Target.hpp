@@ -883,8 +883,8 @@ namespace OW {
 							RootPos = PreditPos;
 							Vector3 Vel = entities[i].velocity;
 							if (entities[i].HeroID == eHero::HERO_WRECKINGBALL) {
-								PreditPos.Y -= 0.7;
-								RootPos.Y -= 0.7;
+								PreditPos.Y -= 0.7f;
+								RootPos.Y -= 0.7f;
 							}
 							Vector2 Vec2 = predit ? viewMatrix.WorldToScreen(PreditPos) : viewMatrix.WorldToScreen(RootPos);
 							float CrossDist;
