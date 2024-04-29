@@ -18,3 +18,14 @@ MISC(Auto skill/No recoil etc)
 
 ## Buy me a cup of coffee/支持我
 BTC : 16eXZ8zzSgtepvuNHa6xQCgnXXSYgu87tC
+
+# Dev Values and Comments
+### SetKey (Нажать кнопку)
+- SetKey(0x1); // ЛКМ
+- SetKey(0x2); // ПКM
+- SetKey(0x8); // Альт.Shift (Абилка 1)
+- SetKey(0x10); // E (Абилка 2)
+- SetKey(0x20); // Q (Ультимейт)
+- SetKey(0x800); // МилиАтака (Melee)
+### Offsets
+- [unknowncheats.me Forum](https://www.unknowncheats.me/forum/4063021-post106.html)

@@ -2726,36 +2726,6 @@ namespace OW {
 							else speed = Config::bladespeed;
 							Config::Qtime = GetTickCount();
 							auto vec = GetVector3forgenji();
-							/*if (vec != Vector3(0, 0, 0)) {
-								auto local_angle = SDK->RPM<Vector3>(SDK->g_player_controller + 0x12A0);
-								auto calc_target = CalcAngle(XMFLOAT3(vec.X, vec.Y, vec.Z), viewMatrix_xor.get_location());
-								auto vec_calc_target = Vector3(calc_target.x, calc_target.y, calc_target.z);
-								auto Target = SmoothLinear(local_angle, vec_calc_target, Config::Tracking_smooth / 10.f);
-								auto local_loc = Vector3(viewMatrix_xor.get_location().x, viewMatrix_xor.get_location().y, viewMatrix_xor.get_location().z);
-								float dist = Vector3(viewMatrix_xor.get_location().x, viewMatrix_xor.get_location().y, viewMatrix_xor.get_location().z).DistTo(vec);
-								if (Target != Vector3(0, 0, 0)) {
-									SDK->WPM<Vector3>(SDK->g_player_controller + 0x12A0, Target);
-									if (Config::lastenemy != Config::Targetenemyi && dist < 20) {
-										while (!in_range(local_angle, vec_calc_target, local_loc, vec, 0.3)) {
-											vec = GetVector3forgenji();
-											local_angle = SDK->RPM<Vector3>(SDK->g_player_controller + 0x12A0);
-											calc_target = CalcAngle(XMFLOAT3(vec.X, vec.Y, vec.Z), viewMatrix_xor.get_location());
-											vec_calc_target = Vector3(calc_target.x, calc_target.y, calc_target.z);
-											Target = SmoothLinear(local_angle, vec_calc_target, Config::Tracking_smooth / 10.f);
-											local_loc = Vector3(viewMatrix_xor.get_location().x, viewMatrix_xor.get_location().y, viewMatrix_xor.get_location().z);
-											if (Config::Rage) SDK->WPM<Vector3>(SDK->g_player_controller + 0x12A0, vec_calc_target);
-											else SDK->WPM<Vector3>(SDK->g_player_controller + 0x12A0, Target);
-										}
-										Config::lastenemy = Config::Targetenemyi;
-										SetKey(0x8);
-										Sleep(45);
-									}
-									else if (dist >= 20)
-										Config::lastenemy = -1;
-									else Config::lastenemy = Config::Targetenemyi;
-								}
-							}
-							vec = GetVector3forgenji();*/
 							if (vec != Vector3(0, 0, 0)) {
 								float dist = Vector3(viewMatrix_xor.get_location().x, viewMatrix_xor.get_location().y, viewMatrix_xor.get_location().z).DistTo(vec);
 								if (dist > 20) continue;
@@ -2776,7 +2746,6 @@ namespace OW {
 										if (detecttoggle && !first) {
 											detecttoggle = 0;
 											Sleep(50);
-											//std::cout << "toggled" << std::endl;
 											continue;
 										}
 										SetKeyHold(0x8, 70);
@@ -2784,11 +2753,7 @@ namespace OW {
 									}
 
 									if (in_range(local_angle, vec_calc_target, local_loc, vec, 1) && dist < 5) {
-										//SDK->WPM<float>(GetSenstivePTR(), 0);
-										//if (Config::Rage) SetKey(0x1);
-										//else SetKeyHold(0x1, 900);
 										SetKey(0x1);
-										//SDK->WPM<float>(GetSenstivePTR(), origin_sens);
 									}
 									if (local_entity.skillcd1 != 0 && !detecttoggle) {
 										detecttoggle = 1;
