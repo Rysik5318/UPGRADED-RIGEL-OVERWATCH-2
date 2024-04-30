@@ -2208,7 +2208,13 @@ namespace OW {
 							ImGui::SliderFloat(skCrypt(u8"Auto melee dist"), &Config::meleedistance, 0.f, 10.f, skCrypt("%.2f"));
 
 							ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.f, 0.f, 0.f, 1.0f));
-							ImGui::Toggle(skCrypt(u8"Auto Heal Skill"), &Config::AutoSkill, ImGuiToggleFlags_Animated);
+							ImGui::Toggle(skCrypt(u8"Auto RMB (Soldier, Sojourn and so on)"), &Config::AutoRMB, ImGuiToggleFlags_Animated);
+							ImGui::PopStyleColor(1);
+							ImGui::SliderFloat(skCrypt(u8"Auto RMB HP"), &Config::AutoRMBhealth, 0.f, 350.f, skCrypt("%.2f"));
+							ImGui::SliderFloat(skCrypt(u8"Auto RMB dist"), &Config::AutoRMBdistance, 0.f, 100.f, skCrypt("%.2f"));
+
+							ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.f, 0.f, 0.f, 1.0f));
+							ImGui::Toggle(skCrypt(u8"Auto Heal Skill (Soldier, Tracer and so on)"), &Config::AutoSkill, ImGuiToggleFlags_Animated);
 							ImGui::SliderFloat(skCrypt(u8"Auto Heal Skill Trigger HP"), &Config::SkillHealth, 0.f, 350.f, skCrypt("%.2f"));
 							ImGui::PopStyleColor(1);
 							
@@ -2352,7 +2358,9 @@ namespace OW {
 									if (Config::health <= Config::meleehealth && dist <= Config::meleedistance && Config::AutoMelee) {
 										SetKey(0x800);
 									}
-
+									if (Config::health <= Config::AutoRMBhealth && dist <= Config::AutoRMBdistance && Config::AutoRMB) {
+										SetKey(0x2);
+									}
 								}
 								if (local_entity.PlayerHealth < Config::SkillHealth) {
 									break;
@@ -2504,7 +2512,7 @@ namespace OW {
 										Config::shooted = true;
 										if (Config::dontshot) Config::shotcount++;
 										break;
-										
+
 									}
 									//自动空枪
 									else if (Config::dontshot && Config::shotcount >= Config::shotmanydont) {
@@ -2815,11 +2823,20 @@ namespace OW {
 					}
 					if (Config::AutoMelee) {
 						auto vec = GetVector3(false);
-						//printf("%llx\n",SDK->RPM<uint32_t>(SDK->g_player_controller + 0x1244));
 						if (vec != Vector3(0, 0, 0) && entities[Config::Targetenemyi].Team) {
 							float dist = Vector3(viewMatrix_xor.get_location().x, viewMatrix_xor.get_location().y, viewMatrix_xor.get_location().z).DistTo(vec);
 							if (Config::health <= Config::meleehealth && dist <= Config::meleedistance) {
 								SetKey(0x800);
+								Sleep(1);
+							}
+						}
+					}
+					if (Config::AutoRMB) {
+						auto vec = GetVector3(false);
+						if (vec != Vector3(0, 0, 0) && entities[Config::Targetenemyi].Team) {
+							float dist = Vector3(viewMatrix_xor.get_location().x, viewMatrix_xor.get_location().y, viewMatrix_xor.get_location().z).DistTo(vec);
+							if (Config::health <= Config::AutoRMBhealth && dist <= Config::AutoRMBdistance) {
+								SetKey(0x2);
 								Sleep(1);
 							}
 						}
@@ -2830,7 +2847,6 @@ namespace OW {
 							float dist = Vector3(viewMatrix_xor.get_location().x, viewMatrix_xor.get_location().y, viewMatrix_xor.get_location().z).DistTo(vec);
 							if (!entities[Config::Targetenemyi].imort && !entities[Config::Targetenemyi].barrprot) {
 								if (!local_entity.skillcd1 && Config::health <= 50 && dist <= 15 && entities[Config::Targetenemyi].HeroID != 0x16dd && entities[Config::Targetenemyi].HeroID != 0x16ee) {
-									//SDK->WPM<float>(GetSenstivePTR(), 0);
 									auto local_angle = SDK->RPM<Vector3>(SDK->g_player_controller + 0x1170);
 									auto calc_target = CalcAngle(XMFLOAT3(vec.X, vec.Y, vec.Z), viewMatrix_xor.get_location());
 									auto vec_calc_target = Vector3(calc_target.x, calc_target.y, calc_target.z);
@@ -2842,7 +2858,6 @@ namespace OW {
 									}
 								}
 								else if (!local_entity.skillcd1 && Config::health <= 80 && dist <= 17 && dist >= 15 && entities[Config::Targetenemyi].HeroID != 0x16dd && entities[Config::Targetenemyi].HeroID != 0x16ee) {
-									//SDK->WPM<float>(GetSenstivePTR(), 0);
 									auto local_angle = SDK->RPM<Vector3>(SDK->g_player_controller + 0x1170);
 									auto calc_target = CalcAngle(XMFLOAT3(vec.X, vec.Y, vec.Z), viewMatrix_xor.get_location());
 									auto vec_calc_target = Vector3(calc_target.x, calc_target.y, calc_target.z);
@@ -2880,7 +2895,7 @@ namespace OW {
 								Config::lasthealth = local_entity.PlayerHealth;
 							}
 							else if (local_entity.HeroID == eHero::HERO_ROADHOG && local_entity.PlayerHealth != 0 && !Config::skilled) {
-								
+
 								SetKey(0x10);
 								Config::skilled = true;
 								Sleep(1);
@@ -2975,6 +2990,7 @@ namespace OW {
 							}
 						}
 					}*/
+
 					if (!GetAsyncKeyState(Config::aim_key)) {
 						Config::shooted = false;
 						Config::lasttime = 0;
@@ -3047,6 +3063,9 @@ namespace OW {
 									if (Config::health <= Config::meleehealth && dist <= Config::meleedistance && Config::AutoMelee) {
 										SetKey(0x800);
 									}
+									if (Config::health <= Config::AutoRMBhealth && dist <= Config::AutoRMBdistance && Config::AutoRMB) {
+										SetKey(0x2);
+									}
 
 									SDK->WPM<Vector3>(SDK->g_player_controller + 0x1170, Target);
 									if (Config::Flick2) {
@@ -3106,7 +3125,7 @@ namespace OW {
 				}
 				Sleep(2);
 			}
-		}
+		}		
 		__except (1) {
 
 		}
@@ -3121,7 +3140,6 @@ namespace OW {
 			Config::lastheroid = 0;
 		}
 		while (1) {
-			//timepassed = GetTickCount();
 			if (!Config::Menu) {
 				if (Config::lastheroid != local_entity.HeroID) {
 					if (Config::lastheroid != 0) {
@@ -3243,10 +3261,17 @@ namespace OW {
 
 						_stprintf(bufsave, _T("%d"), Config::AutoMelee);
 						WritePrivateProfileString(_T(GetHeroEngNames(Config::lastheroid, local_entity.LinkBase).c_str()), _T("AutoMelee"), bufsave, _T(".\\config.ini"));
-						_stprintf(bufsave, _T("%d"), Config::meleedistance);
+						_stprintf(bufsave, _T("%d"), (int)(Config::meleedistance * 10000));
 						WritePrivateProfileString(_T(GetHeroEngNames(Config::lastheroid, local_entity.LinkBase).c_str()), _T("meleedistance"), bufsave, _T(".\\config.ini"));
-						_stprintf(bufsave, _T("%d"), Config::meleehealth);
+						_stprintf(bufsave, _T("%d"), (int)(Config::meleehealth * 10000));
 						WritePrivateProfileString(_T(GetHeroEngNames(Config::lastheroid, local_entity.LinkBase).c_str()), _T("meleehealth"), bufsave, _T(".\\config.ini"));
+
+						_stprintf(bufsave, _T("%d"), Config::AutoRMB);
+						WritePrivateProfileString(_T(GetHeroEngNames(Config::lastheroid, local_entity.LinkBase).c_str()), _T("AutoRMB"), bufsave, _T(".\\config.ini"));
+						_stprintf(bufsave, _T("%d"), (int)(Config::AutoRMBdistance * 10000));
+						WritePrivateProfileString(_T(GetHeroEngNames(Config::lastheroid, local_entity.LinkBase).c_str()), _T("AutoRMBdistance"), bufsave, _T(".\\config.ini"));
+						_stprintf(bufsave, _T("%d"), (int)(Config::AutoRMBhealth * 10000));
+						WritePrivateProfileString(_T(GetHeroEngNames(Config::lastheroid, local_entity.LinkBase).c_str()), _T("AutoRMBhealth"), bufsave, _T(".\\config.ini"));
 
 						_stprintf(bufsave, _T("%d"), Config::norecoil);
 						WritePrivateProfileString(_T(GetHeroEngNames(Config::lastheroid, local_entity.LinkBase).c_str()), _T("norecoil"), bufsave, _T(".\\config.ini"));
@@ -3436,9 +3461,13 @@ namespace OW {
 					Config::autobone2 = GetPrivateProfileInt(_T(GetHeroEngNames(local_entity.HeroID, local_entity.LinkBase).c_str()), _T("autobone2"), 0, _T(".\\config.ini"));
 
 					Config::AutoMelee = GetPrivateProfileInt(_T(GetHeroEngNames(local_entity.HeroID, local_entity.LinkBase).c_str()), _T("AutoMelee"), 0, _T(".\\config.ini"));
-					Config::meleehealth = GetPrivateProfileInt(_T(GetHeroEngNames(local_entity.HeroID, local_entity.LinkBase).c_str()), _T("meleehealth"), 40, _T(".\\config.ini"));
-					Config::meleedistance = GetPrivateProfileInt(_T(GetHeroEngNames(local_entity.HeroID, local_entity.LinkBase).c_str()), _T("meleedistance"), 3, _T(".\\config.ini"));
+					Config::meleehealth = float(GetPrivateProfileInt(_T(GetHeroEngNames(local_entity.HeroID, local_entity.LinkBase).c_str()), _T("meleehealth"), 400000, _T(".\\config.ini"))) / 10000.f;
+					Config::meleedistance = float(GetPrivateProfileInt(_T(GetHeroEngNames(local_entity.HeroID, local_entity.LinkBase).c_str()), _T("meleedistance"), 30000, _T(".\\config.ini"))) / 10000.f;
 					
+					Config::AutoRMB = GetPrivateProfileInt(_T(GetHeroEngNames(local_entity.HeroID, local_entity.LinkBase).c_str()), _T("AutoRMB"), 0, _T(".\\config.ini"));
+					Config::AutoRMBhealth = float(GetPrivateProfileInt(_T(GetHeroEngNames(local_entity.HeroID, local_entity.LinkBase).c_str()), _T("AutoRMBhealth"), 1000000, _T(".\\config.ini"))) / 10000.f;
+					Config::AutoRMBdistance = float(GetPrivateProfileInt(_T(GetHeroEngNames(local_entity.HeroID, local_entity.LinkBase).c_str()), _T("AutoRMBdistance"), 1500000, _T(".\\config.ini"))) / 10000.f;
+
 					Config::AutoSkill = GetPrivateProfileInt(_T(GetHeroEngNames(local_entity.HeroID, local_entity.LinkBase).c_str()), _T("AutoSkill"), 0, _T(".\\config.ini"));
 					Config::SkillHealth = GetPrivateProfileInt(_T(GetHeroEngNames(local_entity.HeroID, local_entity.LinkBase).c_str()), _T("SkillHealth"), 150, _T(".\\config.ini"));
 					
@@ -3798,11 +3827,18 @@ namespace OW {
 
 				_stprintf(bufsave, _T("%d"), Config::AutoMelee);
 				WritePrivateProfileString(_T(GetHeroEngNames(Config::lastheroid, local_entity.LinkBase).c_str()), _T("AutoMelee"), bufsave, _T(".\\config.ini"));
-				_stprintf(bufsave, _T("%d"), Config::meleedistance);
+				_stprintf(bufsave, _T("%d"), (int)(Config::meleedistance * 10000));
 				WritePrivateProfileString(_T(GetHeroEngNames(Config::lastheroid, local_entity.LinkBase).c_str()), _T("meleedistance"), bufsave, _T(".\\config.ini"));
-				_stprintf(bufsave, _T("%d"), Config::meleehealth);
+				_stprintf(bufsave, _T("%d"), (int)(Config::meleehealth * 10000));
 				WritePrivateProfileString(_T(GetHeroEngNames(Config::lastheroid, local_entity.LinkBase).c_str()), _T("meleehealth"), bufsave, _T(".\\config.ini"));
-				
+
+				_stprintf(bufsave, _T("%d"), Config::AutoRMB);
+				WritePrivateProfileString(_T(GetHeroEngNames(Config::lastheroid, local_entity.LinkBase).c_str()), _T("AutoRMB"), bufsave, _T(".\\config.ini"));
+				_stprintf(bufsave, _T("%d"), (int)(Config::AutoRMBdistance * 10000));
+				WritePrivateProfileString(_T(GetHeroEngNames(Config::lastheroid, local_entity.LinkBase).c_str()), _T("AutoRMBdistance"), bufsave, _T(".\\config.ini"));
+				_stprintf(bufsave, _T("%d"), (int)(Config::AutoRMBhealth * 10000));
+				WritePrivateProfileString(_T(GetHeroEngNames(Config::lastheroid, local_entity.LinkBase).c_str()), _T("AutoRMBhealth"), bufsave, _T(".\\config.ini"));
+
 				_stprintf(bufsave, _T("%d"), Config::norecoil);
 				WritePrivateProfileString(_T(GetHeroEngNames(Config::lastheroid, local_entity.LinkBase).c_str()), _T("norecoil"), bufsave, _T(".\\config.ini"));
 				_stprintf(bufsave, _T("%d"), (int)(Config::recoilnum * 10000));
@@ -3963,7 +3999,7 @@ namespace OW {
 				saveheroname = skCrypt(u8"Saved:").decrypt() + saveheroname;
 				ImGui::InsertNotification({ ImGuiToastType_Success, 5000,saveheroname.data() , "" });
 			}
-			//Config::lastheroid = local_entity.HeroID;
+			
 			Sleep(2);
 		}
 	}

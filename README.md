@@ -1,10 +1,10 @@
+[![Downloads](https://img.shields.io/github/downloads/Rysik5318/RIGEL-OVERWATCH-2/total?color=brown&label=Downloads&style=for-the-badge)](https://github.com/Rysik5318/RIGEL-OVERWATCH-2/releases)
 # Rigel-Overwatch-External
-2 branches: English/Chinese version  
+Currently only English is supported, but other languages will be supported in the future
 Rigel Overwatch Cheat External version. Aimbot ESP etc  
-Since I decided to stop making Cheats, here I released my proudest project, Rigel Overwatch, External Version.
 
 # Featuring
-Aimbot(Flick/Tracking/Skill assistant/)  
+Aimbot(Flick/Tracking/Skill assistant/)
 ESP(GLOW/Bone/BattleTag/HealthBar/Ultimate/Eyeray/Radar/Outline)  
 Aim MISC(Auto FOV/Auto unscope etc)  
 Rage(Silent Aim/Intant Aim/Anti Aim/Spin bot/BackTrack) Most of them only available in Internal Version  
@@ -29,3 +29,5 @@ BTC : 16eXZ8zzSgtepvuNHa6xQCgnXXSYgu87tC
 - SetKey(0x800); // МилиАтака (Melee)
 ### Offsets
 - [unknowncheats.me Forum](https://www.unknowncheats.me/forum/4063021-post106.html)
+### C++ and C Code
+[printf](https://www.c-cpp.ru/books/printf)

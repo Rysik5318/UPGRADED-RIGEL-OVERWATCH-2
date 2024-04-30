@@ -110,8 +110,6 @@ namespace OW {
 
 		int lasttime = 0;
 		int slasttime = 0;
-		float meleedistance = 3;
-		float meleehealth = 30;
 		bool AutoSkill = false;
 		float SkillHealth = 50;
 		bool skilled = false;
@@ -125,7 +123,6 @@ namespace OW {
 		int Bone = 1;
 		int Bone2 = 1;
 		float health = 0.f;
-		bool AutoMelee = false;
 		bool AutoShiftGenji = false;
 		bool sskilled = false;
 		bool outline = false;
@@ -168,11 +165,21 @@ namespace OW {
 		bool switch_team = false;
 		bool switch_team2 = false;
 
-		//misc
+		/* Misc */
 		bool musicplay = false;
 		float recoilnum = 0.f;
 		bool norecoil = false;
 		bool horizonreco = false;
+
+		/* AutoRMB Misc */
+		bool AutoRMB = false;
+		float AutoRMBdistance = 50;
+		float AutoRMBhealth = 100;
+
+		/* AutoMelee Misc */
+		bool AutoMelee = false;
+		float meleedistance = 3;
+		float meleehealth = 40;
 
 		int aim_key = VK_XBUTTON2;
 		int aim_key2 = VK_XBUTTON1;
