@@ -94,7 +94,18 @@ namespace OW {
 				entity.address = ComponentParent;
 				if (!entity.address) continue;
 				if (!LinkParent) continue;
-
+				
+				//spoofer
+				/*if (!Config->m_draw_battletag) {
+					setlocale(LC_ALL, "en_US.UTF-8"); // 로케일 설정
+					local_entity.statcombase = DecryptComponent(LinkParent, TYPE_STAT);
+					if (local_entity.statcombase) {
+						char buffer[64] = "";
+						uintptr_t off = SDK->RPM<uintptr_t>(local_entity.statcombase + 0xE0);
+						SDK->read_buf(off, buffer, sizeof(char) * 64);
+						entity.battletag = buffer;
+					}
+				}*/
 				uint64_t Ptr = SDK->RPM<uint64_t>(ComponentParent + 0x30) & 0xFFFFFFFFFFFFFFC0;
 				if (Ptr < 0xFFFFFFFFFFFFFFEF) {
 					uint64_t EntityID = SDK->RPM<uint64_t>(Ptr + 0x10);
@@ -2314,7 +2325,7 @@ namespace OW {
 						{
 							//mutex.lock();
 							auto vec = GetVector3(Config::Prediction ? true : false);
-							if (vec != Vector3(0, 0, 0) && !(entities[Config::Targetenemyi].skill2act && entities[Config::Targetenemyi].HeroID == eHero::HERO_GENJI) && ((!entities[Config::Targetenemyi].imort && !entities[Config::Targetenemyi].barrprot) || Config::switch_team)) {
+							if (vec != Vector3(0, 0, 0) && !(entities[Config::Targetenemyi].skill2act && entities[Config::Targetenemyi].HeroID == eHero::HERO_GENJI) && !(entities[Config::Targetenemyi].skill1act && entities[Config::Targetenemyi].HeroID == eHero::HERO_VENTURE) && ((!entities[Config::Targetenemyi].imort && !entities[Config::Targetenemyi].barrprot) || Config::switch_team)) {
 								auto local_angle = SDK->RPM<Vector3>(SDK->g_player_controller + 0x1170);
 								auto calc_target = CalcAngle(XMFLOAT3(vec.X, vec.Y, vec.Z), viewMatrix_xor.get_location());
 								auto vec_calc_target = Vector3(calc_target.x, calc_target.y, calc_target.z);
@@ -2413,7 +2424,10 @@ namespace OW {
 							//mutex.lock();
 							auto vec = GetVector3(Config::Prediction ? true : false);
 							if (vec == Vector3(0, 0, 0)) break;
-							if (vec != Vector3(0, 0, 0) && !(entities[Config::Targetenemyi].skill2act && entities[Config::Targetenemyi].HeroID == eHero::HERO_GENJI) && ((!entities[Config::Targetenemyi].imort && !entities[Config::Targetenemyi].barrprot) || Config::switch_team)) {
+							if (vec != Vector3(0, 0, 0) 
+								&& !(entities[Config::Targetenemyi].skill2act && entities[Config::Targetenemyi].HeroID == eHero::HERO_GENJI) 
+								&& !(entities[Config::Targetenemyi].skill1act && entities[Config::Targetenemyi].HeroID == eHero::HERO_VENTURE) 
+								&& ((!entities[Config::Targetenemyi].imort && !entities[Config::Targetenemyi].barrprot) || Config::switch_team)) {
 								if (Config::targetdelay) {//目标切换延迟 doingdelay
 									if (Config::lastenemy != Config::Targetenemyi)  Config::doingdelay = 1;
 									if (Config::doingdelay == 1) {
@@ -2584,7 +2598,7 @@ namespace OW {
 								//mutex.unlock();
 								break;
 							}
-							if (vec != Vector3(0, 0, 0) && !(entities[Config::Targetenemyi].skill2act && entities[Config::Targetenemyi].HeroID == eHero::HERO_GENJI) && ((!entities[Config::Targetenemyi].imort && !entities[Config::Targetenemyi].barrprot) || Config::switch_team)) {
+							if (vec != Vector3(0, 0, 0) && !(entities[Config::Targetenemyi].skill2act && entities[Config::Targetenemyi].HeroID == eHero::HERO_GENJI) && !(entities[Config::Targetenemyi].skill1act && entities[Config::Targetenemyi].HeroID == eHero::HERO_VENTURE) && ((!entities[Config::Targetenemyi].imort && !entities[Config::Targetenemyi].barrprot) || Config::switch_team)) {
 
 								auto local_angle = SDK->RPM<Vector3>(SDK->g_player_controller + 0x1170);
 								auto calc_target = CalcAngle(XMFLOAT3(vec.X, vec.Y, vec.Z), viewMatrix_xor.get_location());
@@ -2825,7 +2839,7 @@ namespace OW {
 						auto vec = GetVector3(false);
 						if (vec != Vector3(0, 0, 0) && entities[Config::Targetenemyi].Team) {
 							float dist = Vector3(viewMatrix_xor.get_location().x, viewMatrix_xor.get_location().y, viewMatrix_xor.get_location().z).DistTo(vec);
-							if (Config::health <= Config::meleehealth && dist <= Config::meleedistance) {
+							if (Config::health <= Config::meleehealth && dist <= Config::meleedistance && !(entities[Config::Targetenemyi].skill1act && entities[Config::Targetenemyi].HeroID == eHero::HERO_VENTURE)) {
 								SetKey(0x800);
 								Sleep(1);
 							}
@@ -2835,7 +2849,7 @@ namespace OW {
 						auto vec = GetVector3(false);
 						if (vec != Vector3(0, 0, 0) && entities[Config::Targetenemyi].Team) {
 							float dist = Vector3(viewMatrix_xor.get_location().x, viewMatrix_xor.get_location().y, viewMatrix_xor.get_location().z).DistTo(vec);
-							if (Config::health <= Config::AutoRMBhealth && dist <= Config::AutoRMBdistance) {
+							if (Config::health <= Config::AutoRMBhealth && dist <= Config::AutoRMBdistance && !(entities[Config::Targetenemyi].skill1act && entities[Config::Targetenemyi].HeroID == eHero::HERO_VENTURE)) {
 								SetKey(0x2);
 								Sleep(1);
 							}
