@@ -28,6 +28,7 @@ BTC : 16eXZ8zzSgtepvuNHa6xQCgnXXSYgu87tC
 - SetKey(0x20); // Q (Ультимейт)
 - SetKey(0x800); // МилиАтака (Melee)
 ### Offsets
-- [unknowncheats.me Forum](https://www.unknowncheats.me/forum/4063021-post106.html)
+- [deobfuscation](https://www.unknowncheats.me/forum/overwatch/331730-api-deobfuscation.html)
+- [Offsets (Update 01.05.2024)](https://www.unknowncheats.me/forum/4066461-post2512.html)
 ### C++ and C Code
 [printf](https://www.c-cpp.ru/books/printf)
