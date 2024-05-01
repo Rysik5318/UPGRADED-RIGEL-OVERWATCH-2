@@ -406,11 +406,6 @@ namespace OW {
 							if (predit)
 							{
 								dist = Vector3(viewMatrix_xor.get_location().x, viewMatrix_xor.get_location().y, viewMatrix_xor.get_location().z).DistTo(PreditPos);
-								//if (local_entity.HeroID == eHero::HERO_HANJO && GetLookUpSkill(0xC9) >= 0.5f)
-								//{
-								//	AimCorrection(&PreditPos, Vel, dist, 25.f + (85.f * GetLookUpSkill(0xC9)));
-								//}
-								//else
 								AimCorrection(&PreditPos, Vel, dist, Config::predit_level);
 							}
 							Vector2 Vec2 = predit ? viewMatrix.WorldToScreen(PreditPos) : viewMatrix.WorldToScreen(RootPos);
@@ -1094,7 +1089,8 @@ namespace OW {
 							}
 						}
 					}
-					if (GetAsyncKeyState(Config::aim_key2) && Config::externaloutline) {
+					if (GetAsyncKeyState(Config::aim_key2) && Config::externaloutline) 
+					{
 						Config::targetenemy = convertToHex(Config::targetargb2);
 						SDK->WPM<uint32_t>(entities[TarGetIndex].OutlineBase + 0x144, Config::targetenemy);
 						SDK->WPM<uint32_t>(entities[TarGetIndex].OutlineBase + 0x130, Config::targetenemy);

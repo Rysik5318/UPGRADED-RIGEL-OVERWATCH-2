@@ -54,7 +54,6 @@ void MainThread() {
 		viewMatrix_xor_ptr = viewMatrixVal + 0x130;
 		auto view = SDK->RPM<uint64_t>(SDK->dwGameBase + offset::Address_viewmatrix_base_test) + offset::offset_viewmatrix_ptr;
 		viewMatrixPtr = view;
-		Sleep(100);
 	}
 }
 /*

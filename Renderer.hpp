@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Vector.hpp"
 
 namespace OW {
@@ -346,7 +346,7 @@ namespace OW {
 		inline void DrawInfo(const ImVec2& Pos, ImU32 TagCol, int HeightSize, std::string Info, float distance, float EnHealth, float EnHealthMax) {
 			ImDrawList* Draw = ImGui::GetBackgroundDrawList();
 			ImVec2 InfoSize = ImGui::CalcTextSize(Info.c_str());
-			if (distance < 200)  // º´½Å°°Àº°Ô 1 / distance ¾ÈÇØ³õ°í °Á ¿¬»ê¶§·Á¼­ ±×·±°Å¾Æ´Ô 
+			if (distance < 200)  // Ñ”Ò‘Ð…Ð•Â°Â°ÐÑ”Â°Ð¤ 1 / distance Ñ•Ð˜Ð—Ð¨Ñ–Ñ…Â°Ð½ Â°Ð‘ Ñ—Â¬Â»ÐºÂ¶Â§Â·Ð‘Ñ˜Â­ Â±Ð§Â·Â±Â°Ð•Ñ•Ð–Ò‘Ð¤ 
 			{
 				// 
 				if (EnHealth > 0.f)
@@ -355,7 +355,7 @@ namespace OW {
 					Draw->AddRectFilled(ImVec2(Pos.x - (InfoSize.x / 2), Pos.y + (HeightSize / 2)), ImVec2(Pos.x - (InfoSize.x / 2) + 5, Pos.y - (HeightSize / 2)), TagCol);
 					Draw->AddRectFilled(ImVec2(Pos.x - (InfoSize.x / 2) + 7, Pos.y + (HeightSize / 2) - 6), ImVec2(Pos.x - (InfoSize.x / 2) + 7 + ((abs((Pos.x - (InfoSize.x / 2) + 7) - (Pos.x + (InfoSize.x / 2))) / EnHealthMax) * EnHealth), Pos.y + (HeightSize / 2) - 2), ImGui::GetColorU32(ImVec4(0, 1, 0, 1)));
 					DrawStrokeText(ImVec2(Pos.x - ((InfoSize.x / 2)) + 10, Pos.y - (HeightSize / 2)), ImGui::GetColorU32(ImVec4(1, 0.6, 0.6, 1)), Info.c_str());
-					// ¿©±âºÎºÐ
+					// Ñ—Â©Â±Ð²Ñ”ÐžÑ”Ð 
 					//std::cout << Info;
 				}
 				else
@@ -437,7 +437,6 @@ namespace OW {
 			ImDrawList* Draw = ImGui::GetBackgroundDrawList();
 			ImVec2 InfoSize = ImGui::CalcTextSize(skill.c_str());
 			DrawStrokeText(ImVec2(Pos.x, Pos.y), ImGui::GetColorU32(ImVec4(1, 1, 1, 1)), skill.c_str(),19);
-			//std::cout << skillstring << std::endl;
 		}
 
 
@@ -462,6 +461,8 @@ namespace OW {
 
 		}
 		void DrawHealthBar(Vector2 screenPos, float height, float currentHealth, float maxHealth) {
+			Render::DrawStrokeText(ImVec2(screenPos.X - 5.f, screenPos.Y + 8.f), ImGui::GetColorU32(ImVec4(1, 0, 0.2f, 1)), (skCrypt(u8"[HPï¼š").decrypt() + std::to_string((int)currentHealth) + skCrypt(u8"]").decrypt()).c_str(), Config::healthbartextsize);
+
 			screenPos.X += 8;
 			DrawBox(Rect(screenPos.X, screenPos.Y, 5.0f, height + 2), Color(0, 0, 0), 3);
 			screenPos.X += 1;

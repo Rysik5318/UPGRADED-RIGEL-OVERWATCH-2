@@ -39,7 +39,7 @@ namespace OW {
 			return modBaseAddr;
 		}
 	public:
-		HANDLE hProcess = 0;
+		HANDLE hProcess;
 		uint64_t dwGameBase = 0;
 		uint64_t GlobalKey1 = 0, GlobalKey2 = 0;
 		uint64_t g_player_controller = 0;

@@ -71,6 +71,7 @@ namespace OW {
 		bool silenttrace = false;
 		bool fakesilent = false;
 
+		bool triggerbot2 = false;
 		bool Flick2 = false;
 		bool Tracking2 = false;
 		bool Prediction2 = false;
@@ -146,6 +147,8 @@ namespace OW {
 		bool radar = false;
 		bool radarline = false;
 		bool healthbar = true;
+		float healthbartextsize = 16;
+		bool healthbar2 = false;
 		bool drawhealth = false;
 		bool ult = true;
 		bool dist = false;
