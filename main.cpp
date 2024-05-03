@@ -31,7 +31,6 @@ void MainThread() {
 	while (!SDK->Initialize() || !SDK->GetGlobalKey())
 	{
 		std::cout << "Waiting Overwatch..\n";
-		Sleep(2000);
 	}
 
 

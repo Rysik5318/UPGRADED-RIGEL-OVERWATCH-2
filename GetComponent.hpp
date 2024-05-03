@@ -302,8 +302,6 @@ namespace OW {
 
 	uintptr_t DecryptComponent(uintptr_t parent, uint8_t idx) {
 		__try {
-			if (parent) {
-
 				uintptr_t v1 = parent;
 				uintptr_t v2 = (uintptr_t)1 << (uintptr_t)(idx & 0x3F);
 				uintptr_t v3 = v2 - 1;
@@ -323,7 +321,6 @@ namespace OW {
 				uintptr_t v12 = (unsigned int)v11 | v11 & 0xFFFFFFFF00000000ui64 ^ ((unsigned __int64)(unsigned int)(v11 + __ROL4__(dummy1, 1)) << 0x20);
 				uintptr_t v13 = -(int)v7 & ((unsigned int)v12 | v12 & 0xFFFFFFFF00000000ui64 ^ (((unsigned int)v12 ^ HIDWORD(dummy2)) << 0x20));
 				return v13;
-			}
 		}
 		__except (EXCEPTION_EXECUTE_HANDLER) {}
 		return NULL;

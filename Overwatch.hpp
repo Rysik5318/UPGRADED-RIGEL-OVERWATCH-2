@@ -1291,29 +1291,12 @@ namespace OW {
 			colorc5 = 120.f;
 			float jj15 = 1, jj25 = 0, jj35 = 1;
 			DEVMODE dm;
-			while (FindWindowA(skCrypt("TankWindowClass"), NULL))
+			while (true)
 			{
 				
 				dm.dmSize = sizeof(DEVMODE);
 
 				EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &dm);
-				/*
-				FPS = dm.dmDisplayFrequency;
-				//FPS = 60;
-				if (FPS < 200) FPS = 200;
-				else if (FPS > 240) FPS = 240;
-
-				a = std::chrono::system_clock::now();
-				std::chrono::duration<double, std::milli> work_time = a - b;
-				if (work_time.count() < 1000 / FPS)
-				{
-					std::chrono::duration<double, std::milli> delta_ms(1000 / FPS - work_time.count());
-					auto delta_ms_duration = std::chrono::duration_cast<std::chrono::milliseconds>(delta_ms);
-					std::this_thread::sleep_for(std::chrono::milliseconds(delta_ms_duration.count()));
-				}
-
-				b = std::chrono::system_clock::now();
-				std::chrono::duration<double, std::milli> sleep_time = b - a;*/
 				if(!Config::Menu)
 					Sleep(5);
 				DWORD Style = GetWindowLong(tWnd, GWL_STYLE);
@@ -1656,36 +1639,7 @@ namespace OW {
 								}
 								ImGui::PopStyleColor(1);
 								ImGui::BulletText(skCrypt(u8"Keybind"));
-								if (ImGui::BeginCombo(skCrypt(u8"##Key"), keys))
-								{
-									for (int i = 0; i < 5; i++)
-									{
-										const bool type = keys == key_type[i];
-										if (ImGui::Selectable(key_type[i], type))
-										{
-											keys = key_type[i];
-											switch (i)
-											{
-											case 0:
-												Config::aim_key = VK_LBUTTON;
-												break;
-											case 1:
-												Config::aim_key = VK_RBUTTON;
-												break;
-											case 2:
-												Config::aim_key = VK_MBUTTON;
-												break;
-											case 3:
-												Config::aim_key = VK_XBUTTON1;
-												break;
-											case 4:
-												Config::aim_key = VK_XBUTTON2;
-												break;
-											}
-										}
-									}
-									ImGui::EndCombo();
-								}
+								ImGui::Combo("TKeybind", &Config::aim_key, key_binds.data(), key_binds.size());
 
 								ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.4f, 0.6f, 1.f, 1.0f));
 								ImGui::Spacing();
@@ -2079,6 +2033,7 @@ namespace OW {
 
 							ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.f, 0.f, 0.f, 1.0f));
 
+							ImGui::Toggle(skCrypt(u8"Test"), &Config::testvalue, ImGuiToggleFlags_Animated);
 							ImGui::Toggle(skCrypt(u8"Info"), &Config::draw_info, ImGuiToggleFlags_Animated);
 							if (Config::draw_info) {
 								ImGui::Spacing();
@@ -2253,16 +2208,16 @@ namespace OW {
 			}
 
 			// Cleanup
-			ImGui_ImplDX11_Shutdown();
-			ImGui_ImplWin32_Shutdown();
-			ImGui::DestroyContext();
+			//ImGui_ImplDX11_Shutdown();
+			//ImGui_ImplWin32_Shutdown();
+			//ImGui::DestroyContext();
 
-			CleanupDeviceD3D();
-			::DestroyWindow(hwnd);
-			::UnregisterClass(wc.lpszClassName, wc.hInstance);
+			//CleanupDeviceD3D();
+			//::DestroyWindow(hwnd);
+			//::UnregisterClass(wc.lpszClassName, wc.hInstance);
 		}
-		__except (1) {
-
+		__except (1)
+		{
 		}
 	}
 	inline void aimbot_thread()
@@ -2317,7 +2272,7 @@ namespace OW {
 					//Tracking
 					if (Config::Tracking) {
 
-						while (GetAsyncKeyState(Config::aim_key) && !Config::reloading)
+						while (GetAsyncKeyState(get_bind_id(Config::aim_key)) && !Config::reloading)
 						{
 							//mutex.lock();
 							auto vec = GetVector3(Config::Prediction ? true : false);
@@ -2409,14 +2364,15 @@ namespace OW {
 					//Flick
 					else if (Config::Flick) {
 						if (Config::hitboxdelayshoot) {
-							if (Config::shooted || !GetAsyncKeyState(Config::aim_key)) {
+							if (Config::shooted || !GetAsyncKeyState(get_bind_id(Config::aim_key))) {
 								dodelay = 1;
 								hitbotdelaytime = 0;
 							}
 						}
 						//int a = SDK->RPM<int>(SDK->g_player_controller + 0x1760);
-						while (GetAsyncKeyState(Config::aim_key) && !Config::shooted && !Config::reloading)
+						while (GetAsyncKeyState(get_bind_id(Config::aim_key)) && !Config::shooted && !Config::reloading)
 						{
+							if (local_entity.HeroID == eHero::HERO_WIDOWMAKER && !GetAsyncKeyState(0x2)) continue;
 							//mutex.lock();
 							auto vec = GetVector3(Config::Prediction ? true : false);
 							if (vec == Vector3(0, 0, 0)) break;
@@ -2581,12 +2537,12 @@ namespace OW {
 					else if (Config::hanzo_flick)
 					{
 						if (Config::hitboxdelayshoot) {
-							if (Config::shooted || !GetAsyncKeyState(Config::aim_key)) {
+							if (Config::shooted || !GetAsyncKeyState(get_bind_id(Config::aim_key))) {
 								dodelay = 1;
 								hitbotdelaytime = 0;
 							}
 						}
-						while (GetAsyncKeyState(Config::aim_key) && !Config::shooted)
+						while (GetAsyncKeyState(get_bind_id(Config::aim_key)) && !Config::shooted)
 						{
 							//mutex.lock();
 							auto vec = GetVector3(true);
@@ -3001,7 +2957,7 @@ namespace OW {
 						}
 					}*/
 
-					if (!GetAsyncKeyState(Config::aim_key)) {
+					if (!GetAsyncKeyState(get_bind_id(Config::aim_key))) {
 						Config::shooted = false;
 						Config::lasttime = 0;
 						if (Config::reloading) {
@@ -3136,7 +3092,8 @@ namespace OW {
 				Sleep(2);
 			}
 		}		
-		__except (1) {
+		__except (1) 
+		{
 
 		}
 	}
@@ -4037,7 +3994,7 @@ namespace OW {
 	inline void looprpmthread() {
 		while (1) {
 			if (entities.size() > 0) {
-				if (local_entity.AngleBase && (GetAsyncKeyState(Config::aim_key) || GetAsyncKeyState(Config::aim_key2) || GetAsyncKeyState(0x01) || GetAsyncKeyState(0x02))) {
+				if (local_entity.AngleBase && (GetAsyncKeyState(get_bind_id(Config::aim_key)) || GetAsyncKeyState(Config::aim_key2) || GetAsyncKeyState(0x01) || GetAsyncKeyState(0x02))) {
 				//if (SDK->g_player_controller) {
 					if (Config::horizonreco) {
 						//mutex.lock();

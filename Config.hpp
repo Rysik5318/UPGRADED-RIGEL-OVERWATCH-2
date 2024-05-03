@@ -18,6 +18,7 @@ namespace OW {
 		bool lockontarget = false;
 		bool highPriority = false;
 		bool hanzoautospeed = false;
+		bool testvalue = true;
 		float Flick_smooth = 0.1f;
 		float bladespeed = 0.5f;
 		float Flick_smooth2 = 0.1f;

@@ -10,15 +10,75 @@ namespace OW {
 		}
 		__except (EXCEPTION_EXECUTE_HANDLER) {}
 	}
+	inline int get_bind_id(int setting) {
+		int vk;
+		switch (setting) {
+		case 0: break;
+		case 1: vk = VK_LBUTTON; break;
+		case 2: vk = VK_RBUTTON; break;
+		case 3: vk = VK_MBUTTON; break;
+		case 4: vk = VK_XBUTTON1; break;
+		case 5: vk = VK_XBUTTON2; break;
+		case 6: vk = 0x41; break;
+		case 7: vk = 0x42; break;
+		case 8: vk = 0x43; break;
+		case 9: vk = 0x44; break;
+		case 10: vk = 0x45; break;
+		case 11: vk = 0x46; break;
+		case 12: vk = 0x47; break;
+		case 13: vk = 0x48; break;
+		case 14: vk = 0x49; break;
+		case 15: vk = 0x4A; break;
+		case 16: vk = 0x4B; break;
+		case 17: vk = 0x4C; break;
+		case 18: vk = 0x4D; break;
+		case 19: vk = 0x4E; break;
+		case 20: vk = 0x4F; break;
+		case 21: vk = 0x50; break;
+		case 22: vk = 0x51; break;
+		case 23: vk = 0x52; break;
+		case 24: vk = 0x53; break;
+		case 25: vk = 0x54; break;
+		case 26: vk = 0x55; break;
+		case 27: vk = 0x56; break;
+		case 28: vk = 0x57; break;
+		case 29: vk = 0x58; break;
+		case 30: vk = 0x59; break;
+		case 31: vk = 0x5A; break;
+		case 32: vk = 0x31; break;
+		case 33: vk = 0x32; break;
+		case 34: vk = 0x33; break;
+		case 35: vk = 0x34; break;
+		case 36: vk = 0x35; break;
+		case 37: vk = 0x36; break;
+		case 38: vk = 0x37; break;
+		case 39: vk = 0x38; break;
+		case 40: vk = 0x39; break;
+		case 41: vk = 0x30; break;
+		case 42: vk = VK_F1; break;
+		case 43: vk = VK_F2; break;
+		case 44: vk = VK_F3; break;
+		case 45: vk = VK_F4; break;
+		case 46: vk = VK_F5; break;
+		case 47: vk = VK_F6; break;
+		case 48: vk = VK_F7; break;
+		case 49: vk = VK_F8; break;
+		case 50: vk = VK_F9; break;
+		case 51: vk = VK_F10; break;
+		case 52: vk = VK_F11; break;
+		case 53: vk = VK_F12; break;
+		case 54: vk = VK_MENU; break;
+		default: break;
+		}
+		return vk;
+	}
 
 	unsigned int convertToHex(ImVec4 color) {
-		// 将每个分量从[0.0, 1.0]映射到[0, 255]范围，并转换为整数
 		unsigned int red = static_cast<unsigned int>(color.x * 255);
 		unsigned int green = static_cast<unsigned int>(color.y * 255);
 		unsigned int blue = static_cast<unsigned int>(color.z * 255);
 		unsigned int alpha = static_cast<unsigned int>(color.w * 255);
 
-		// 将RGBA分量组合成一个32位整数，格式为0xAARRGGBB
 		unsigned int hexColor = (alpha << 24) | (blue << 16) | (green << 8) | red;
 
 		return hexColor;
@@ -28,24 +88,6 @@ namespace OW {
 		double c, double d, double m, double n) {
 		return std::pair<double, double>((m * d - c * n) / (a * d - c * b), (a * n - b * m) / (a * d - c * b));
 	}
-
-	/*inline float CalculateTrackBack(Vector3 rayOrigin, Vector3 OwnPos, Vector3 LocalAngle, Vector3 rayDirection) {
-		// 计算平面法向量的模
-		float rayDirectionLength = std::sqrt(rayDirection.X * rayDirection.X +
-			rayDirection.Y * rayDirection.Y +
-			rayDirection.Z * rayDirection.Z);
-
-		// 确保射线方向向量的长度不为零
-		if (rayDirectionLength > 1e-6) {
-			// 计算点rayOrigin到平面的有向距离
-			float distance = ((rayOrigin.X - OwnPos.X) * rayDirection.X +
-				(rayOrigin.Y - OwnPos.Y) * rayDirection.Y +
-				(rayOrigin.Z - OwnPos.Z) * rayDirection.Z) / rayDirectionLength;
-			return distance/((rayDirection.X * rayDirection.X)+ (rayDirection.Y * rayDirection.Y)+ (rayDirection.Z * rayDirection.Z));
-		}
-
-		return 0; // 如果射线方向向量的长度为零，返回0表示距离无穷远
-	}*/
 
 
 
@@ -416,7 +458,7 @@ namespace OW {
 								origin = CrossDist;
 								TarGetIndex = i;
 								/*Config::health = entities[i].PlayerHealth;
-								if (GetAsyncKeyState(Config::aim_key)) {
+								if (GetAsyncKeyState(get_bind_id(Config::aim_key))) {
 									Config::Targetenemyi = i;
 									Config::targetenemy = convertToHex(Config::targetargb);
 									SDK->WPM<uint32_t>(entities[i].OutlineBase + 0x144, Config::targetenemy);
@@ -442,7 +484,7 @@ namespace OW {
 						if (entities[i].Alive && !entities[i].Team && entities[i].Vis && entities[i].address != local_entity.address)
 						{
 							/*Config::health = entities[i].PlayerHealth;
-							if (GetAsyncKeyState(Config::aim_key)) {
+							if (GetAsyncKeyState(get_bind_id(Config::aim_key))) {
 								Config::Targetenemyi = i;
 								Config::targetenemy = convertToHex(Config::targetargb);
 								SDK->WPM<uint32_t>(entities[i].OutlineBase + 0x144, Config::targetenemy);
@@ -484,7 +526,7 @@ namespace OW {
 								origin = CrossDist;
 								TarGetIndex = i;
 								/*Config::health = entities[i].PlayerHealth;
-								if (GetAsyncKeyState(Config::aim_key)) {
+								if (GetAsyncKeyState(get_bind_id(Config::aim_key))) {
 									Config::Targetenemyi = i;
 									Config::targetenemy = convertToHex(Config::targetargb);
 									SDK->WPM<uint32_t>(entities[i].OutlineBase + 0x144, Config::targetenemy);
@@ -570,7 +612,7 @@ namespace OW {
 							}
 						}
 					}
-					if (GetAsyncKeyState(Config::aim_key) && Config::externaloutline) {
+					if (GetAsyncKeyState(get_bind_id(Config::aim_key)) && Config::externaloutline) {
 						Config::targetenemy = convertToHex(Config::targetargb);
 						SDK->WPM<uint32_t>(entities[TarGetIndex].OutlineBase + 0x144, Config::targetenemy);
 						SDK->WPM<uint32_t>(entities[TarGetIndex].OutlineBase + 0x130, Config::targetenemy);
@@ -584,7 +626,7 @@ namespace OW {
 			if (entities[TarGetIndex].Alive && entities[TarGetIndex].Team && entities[TarGetIndex].Vis)
 			{
 				//Config::health = entities[TarGetIndex].PlayerHealth;
-				//if (GetAsyncKeyState(Config::aim_key)) {
+				//if (GetAsyncKeyState(get_bind_id(Config::aim_key))) {
 				//	Config::Targetenemyi = TarGetIndex;
 				//	Config::targetenemy = convertToHex(Config::targetargb);
 				//	SDK->WPM<uint32_t>(entities[TarGetIndex].OutlineBase + 0x144, Config::targetenemy);
@@ -645,7 +687,7 @@ namespace OW {
 					target = predit ? PreditPos : RootPos;
 					origin = CrossDist;
 					Config::health = entities[TarGetIndex].PlayerHealth;
-					if (GetAsyncKeyState(Config::aim_key)) {
+					if (GetAsyncKeyState(get_bind_id(Config::aim_key))) {
 						Config::Targetenemyi = TarGetIndex;
 						Config::targetenemy = convertToHex(Config::targetargb);
 						SDK->WPM<uint32_t>(entities[TarGetIndex].OutlineBase + 0x144, Config::targetenemy);
@@ -765,7 +807,7 @@ namespace OW {
 								origin = CrossDist;
 								TarGetIndex = i;
 								/*Config::health = entities[i].PlayerHealth;
-								if (GetAsyncKeyState(Config::aim_key)) {
+								if (GetAsyncKeyState(get_bind_id(Config::aim_key))) {
 									Config::Targetenemyi = i;
 									Config::targetenemy = convertToHex(Config::targetargb);
 									SDK->WPM<uint32_t>(entities[i].OutlineBase + 0x144, Config::targetenemy);
@@ -960,7 +1002,7 @@ namespace OW {
 								origin = CrossDist;
 								TarGetIndex = i;
 								/*Config::health = entities[i].PlayerHealth;
-								if (GetAsyncKeyState(Config::aim_key)) {
+								if (GetAsyncKeyState(get_bind_id(Config::aim_key))) {
 									Config::Targetenemyi = i;
 									Config::targetenemy = convertToHex(Config::targetargb);
 									SDK->WPM<uint32_t>(entities[i].OutlineBase + 0x144, Config::targetenemy);
@@ -1015,7 +1057,7 @@ namespace OW {
 								origin = CrossDist;
 								TarGetIndex = i;
 								/*Config::health = entities[i].PlayerHealth;
-								if (GetAsyncKeyState(Config::aim_key)) {
+								if (GetAsyncKeyState(get_bind_id(Config::aim_key))) {
 									Config::Targetenemyi = i;
 									Config::targetenemy = convertToHex(Config::targetargb);
 									SDK->WPM<uint32_t>(entities[i].OutlineBase + 0x144, Config::targetenemy);
