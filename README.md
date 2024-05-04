@@ -31,5 +31,6 @@ BTC : 16eXZ8zzSgtepvuNHa6xQCgnXXSYgu87tC
 - [deobfuscation](https://www.unknowncheats.me/forum/overwatch/331730-api-deobfuscation.html)
 - [Offsets (Update 01.05.2024)](https://www.unknowncheats.me/forum/4066461-post2512.html)
 - [IDA Pro](https://youtu.be/fONu7T-KR34?si=Io-3bQk7rauZ_Own)
+- [Скорость пули для героев-снарядов](https://www.unknowncheats.me/forum/overwatch/589047-bullet-speeds-ow2-projectile-heroes.html)
 ### C++ and C Code
 [printf](https://www.c-cpp.ru/books/printf)
