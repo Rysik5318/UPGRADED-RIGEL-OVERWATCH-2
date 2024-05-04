@@ -461,7 +461,8 @@ namespace OW {
 
 		}
 		void DrawHealthBar(Vector2 screenPos, float height, float currentHealth, float maxHealth) {
-			Render::DrawStrokeText(ImVec2(screenPos.X - 5.f, screenPos.Y + 8.f), ImGui::GetColorU32(ImVec4(1, 0, 0.2f, 1)), (skCrypt(u8"[HP：").decrypt() + std::to_string((int)currentHealth) + skCrypt(u8"]").decrypt()).c_str(), Config::healthbartextsize);
+			Render::DrawStrokeText(ImVec2(screenPos.X - 5.f, screenPos.Y - 8.f), ImGui::GetColorU32(ImVec4(0, 0.9, 1, 1)), (skCrypt(u8"[HP：").decrypt() + std::to_string((int)currentHealth) + skCrypt(u8"]").decrypt()).c_str(), Config::healthbartextsize);
+			//Render::DrawStrokeText(ImVec2(screenPos.X - 5.f, screenPos.Y + 8.f), ImGui::GetColorU32(ImVec4(1, 0, 0.2f, 1)), (skCrypt(u8"[HP：").decrypt() + std::to_string((int)currentHealth) + skCrypt(u8"]").decrypt()).c_str(), Config::healthbartextsize);
 
 			screenPos.X += 8;
 			DrawBox(Rect(screenPos.X, screenPos.Y, 5.0f, height + 2), Color(0, 0, 0), 3);

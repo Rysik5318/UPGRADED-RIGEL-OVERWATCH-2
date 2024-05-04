@@ -258,6 +258,7 @@ namespace OW {
 
 				if (entity.OutlineBase)
 				{
+					//SetBorderLine(0x2, entity.OutlineBase);
 					if (Config::externaloutline && !entity.Vis)	SetBorderLine(0x2, entity.OutlineBase);
 					else SetBorderLine(0x1, entity.OutlineBase);
 					if (Config::externaloutline) {
@@ -1017,8 +1018,9 @@ namespace OW {
 					{
 						Vector3 Vec3 = entity.head_pos;
 						Vector2 Vec2_A{};
-						if (viewMatrix.WorldToScreen(Vector3(Vec3.X, Vec3.Y, Vec3.Z), &Vec2_A, Vector2(WX, WY))) {
-							if (entity.Vis)
+						if (viewMatrix.WorldToScreen(Vector3(Vec3.X, Vec3.Y, Vec3.Z), &Vec2_A, Vector2(WX, WY), true)) 
+						{
+								if (entity.Vis)
 								Render::DrawLine(Vector2(WX / 2, WY / 2), Vec2_A, Color(160, 218, 255, 150), 2.f);
 							else
 								Render::DrawLine(Vector2(WX / 2, WY / 2), Vec2_A, Color(204, 102, 102, 150), 2.f);
@@ -1187,7 +1189,6 @@ namespace OW {
 	}
 	HWND hwnd;
 	inline void overlay_thread() {
-		__try {
 			int tab_index = 5;
 			int subindex = 1;
 			std::chrono::system_clock::time_point a = std::chrono::system_clock::now();
@@ -1198,17 +1199,7 @@ namespace OW {
 			WNDCLASSEX wc = { sizeof(WNDCLASSEX), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(NULL), NULL, NULL, NULL, NULL, skCrypt("ImperialUltra"), NULL };
 			RegisterClassEx(&wc);
 			hwnd = CreateWindow(wc.lpszClassName, skCrypt("ImperialUltra"), WS_POPUP, 0, 0, 0, 0, NULL, NULL, wc.hInstance, NULL);
-			/*
-			static RECT TempRect = { NULL };
-			static POINT TempPoint;
-			GetClientRect(SDK->Windowsizehd, &TempRect);
-			ClientToScreen(SDK->Windowsizehd, &TempPoint);
-			TempRect.left = TempPoint.x;
-			TempRect.top = TempPoint.y;
-			WX = TempRect.right;
-			WY = TempRect.bottom;
-			hwnd = CreateWindowEx(NULL, skCrypt("ThatIsImp"), skCrypt("ThatIsImp"), WS_POPUP | WS_VISIBLE, TempRect.left, TempRect.top, TempRect.right - TempRect.left, TempRect.bottom - TempRect.top, NULL, NULL, 0, NULL);
-            */
+
 			if (!CreateDeviceD3D(hwnd))
 			{
 				CleanupDeviceD3D();
@@ -1245,13 +1236,8 @@ namespace OW {
 				ico = io.Fonts->AddFontFromMemoryTTF(&icon, sizeof icon, 65.f, NULL, io.Fonts->GetGlyphRangesCyrillic());
 			if(ico234==nullptr)
 				ico234 = io.Fonts->AddFontFromMemoryTTF((void*)tahoma, sizeof(tahoma), 65.f, NULL, io.Fonts->GetGlyphRangesCyrillic());
-			// Initialize notify
-			//io.Fonts->AddFontFromFileTTF(".\\SimHei.ttf", 20.0f, &font_cfg, io.Fonts->GetGlyphRangesChineseFull());
-			//ImGui::MergeIconsWithLatestFont(16.f, false);
-			//ImGui::StyleColorsDark();
 			ImCandy::Theme_Blender();
 
-			//ImGui::StyleColorsLight();
 
 
 			ImGui_ImplWin32_Init(tWnd);
@@ -1291,9 +1277,9 @@ namespace OW {
 			colorc5 = 120.f;
 			float jj15 = 1, jj25 = 0, jj35 = 1;
 			DEVMODE dm;
+
 			while (true)
 			{
-				
 				dm.dmSize = sizeof(DEVMODE);
 
 				EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &dm);
@@ -1314,21 +1300,14 @@ namespace OW {
 					//continue;
 				}
 
-				if (GetAsyncKeyState(VK_LBUTTON))
-				{
-					ImGui::GetIO().MouseDown[0] = true;
-				}
-				else
-				{
-					ImGui::GetIO().MouseDown[0] = false;
-				}
+				GetAsyncKeyState(VK_LBUTTON) ? (ImGui::GetIO().MouseDown[0] = true) : (ImGui::GetIO().MouseDown[0] = false);
+				
 
 				if (GetAsyncKeyState(VK_INSERT)) {
 					Config::Menu = !Config::Menu;
-					//ImGui::GetIO().MouseDrawCursor = Config::Menu;
 					Sleep(250);
 				}
-				if (!Config::Menu&&doingone==0) {
+				if (!Config::Menu && doingone==0) {
 					doingone = 1;
 					SetFocus(tWnd);
 					SetWindowLong(hwnd, GWL_EXSTYLE, WS_EX_LAYERED | WS_EX_TRANSPARENT | WS_EX_NOACTIVATE);
@@ -1338,11 +1317,6 @@ namespace OW {
 					SetFocus(hwnd);
 					ShowCursor(TRUE);
 					SetWindowLong(hwnd, GWL_EXSTYLE, WS_EX_LAYERED | WS_EX_TOOLWINDOW);
-					//UpdateWindow(hwnd);
-					//Config::doingentity = 0;
-					//Sleep(100);
-					//Config::doingentity = 1;
-					//_beginthread((_beginthread_proc_type)entity_thread, 0, 0);
 					doingone = 0;
 				}
 				// Start the Dear ImGui frame
@@ -1639,7 +1613,7 @@ namespace OW {
 								}
 								ImGui::PopStyleColor(1);
 								ImGui::BulletText(skCrypt(u8"Keybind"));
-								ImGui::Combo("TKeybind", &Config::aim_key, key_binds.data(), key_binds.size());
+								ImGui::Combo("Keybind", &Config::aim_key, key_binds.data(), 55);
 
 								ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.4f, 0.6f, 1.f, 1.0f));
 								ImGui::Spacing();
@@ -1821,70 +1795,10 @@ namespace OW {
 
 									ImGui::PopStyleColor(1);
 									ImGui::BulletText(skCrypt(u8"Keybind2"));
-
-									if (ImGui::BeginCombo(skCrypt(u8"##Key2"), keys2))
-									{
-										for (int i = 0; i < 5; i++)
-										{
-											const bool type2 = keys2 == key_type2[i];
-											if (ImGui::Selectable(key_type2[i], type2))
-											{
-												keys2 = key_type2[i];
-												switch (i)
-												{
-												case 0:
-													Config::aim_key2 = VK_LBUTTON;
-													break;
-												case 1:
-													Config::aim_key2 = VK_RBUTTON;
-													break;
-												case 2:
-													Config::aim_key2 = VK_MBUTTON;
-													break;
-												case 3:
-													Config::aim_key2 = VK_XBUTTON1;
-													break;
-												case 4:
-													Config::aim_key2 = VK_XBUTTON2;
-													break;
-												}
-											}
-										}
-										ImGui::EndCombo();
-									}
+									ImGui::Combo("Keybind2", &Config::aim_key2, key_binds.data(), 55);
 
 									ImGui::BulletText(skCrypt(u8"Toggle button2"));
-
-									if (ImGui::BeginCombo(skCrypt(u8"##FIREKey2"), keys3))
-									{
-										for (int i = 0; i < 5; i++)
-										{
-											const bool type3 = keys3 == key_type3[i];
-											if (ImGui::Selectable(key_type3[i], type3))
-											{
-												keys3 = key_type3[i];
-												switch (i)
-												{
-												case 0:
-													Config::togglekey = 0;
-													break;
-												case 1:
-													Config::togglekey = 1;
-													break;
-												case 2:
-													Config::togglekey = 2;
-													break;
-												case 3:
-													Config::togglekey = 3;
-													break;
-												case 4:
-													Config::togglekey = 4;
-													break;
-												}
-											}
-										}
-										ImGui::EndCombo();
-									}
+									ImGui::Combo("Togglekey2", &Config::togglekey, key_binds.data(), 55);
 
 									ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.f, 0.f, 0.f, 1.0f));
 									ImGui::Toggle(skCrypt(u8"Closest"), &Config::autobone2, ImGuiToggleFlags_Animated);
@@ -2195,8 +2109,13 @@ namespace OW {
 					}
 					ImGui::End();
 				}
+				__try {
 				if (entities.size() > 0)
 					esp();
+						}
+						__except (1)
+						{
+						}
 				ImGui::EndFrame();
 				ImGui::Render();
 				g_pd3dDeviceContext->OMSetRenderTargets(1, &g_mainRenderTargetView, NULL);
@@ -2215,10 +2134,6 @@ namespace OW {
 			//CleanupDeviceD3D();
 			//::DestroyWindow(hwnd);
 			//::UnregisterClass(wc.lpszClassName, wc.hInstance);
-		}
-		__except (1)
-		{
-		}
 	}
 	inline void aimbot_thread()
 	{
@@ -2357,8 +2272,8 @@ namespace OW {
 									Config::Fov2 = Config::minFov2;
 								}
 							}
-							if (Config::highPriority && GetAsyncKeyState(Config::aim_key2)) break;
-							else if (Config::highPriority && !GetAsyncKeyState(Config::aim_key2) && Config::shooted2) Config::shooted2 = false;
+							if (Config::highPriority && GetAsyncKeyState(get_bind_id(Config::aim_key2))) break;
+							else if (Config::highPriority && !GetAsyncKeyState(get_bind_id(Config::aim_key2)) && Config::shooted2) Config::shooted2 = false;
 						}
 					}
 					//Flick
@@ -2530,8 +2445,8 @@ namespace OW {
 									Config::Fov2 = Config::minFov2;
 								}
 							}
-							if (Config::highPriority && GetAsyncKeyState(Config::aim_key2)) break;
-							else if (Config::highPriority && !GetAsyncKeyState(Config::aim_key2) && Config::shooted2) Config::shooted2 = false;
+							if (Config::highPriority && GetAsyncKeyState(get_bind_id(Config::aim_key2))) break;
+							else if (Config::highPriority && !GetAsyncKeyState(get_bind_id(Config::aim_key2)) && Config::shooted2) Config::shooted2 = false;
 						}
 					}
 					else if (Config::hanzo_flick)
@@ -2973,7 +2888,7 @@ namespace OW {
 					}
 
 					if (Config::secondaim) {
-						while (GetAsyncKeyState(Config::aim_key2) && !Config::shooted2)
+						while (GetAsyncKeyState(get_bind_id(Config::aim_key2)) && !Config::shooted2)
 						{
 							//mutex.lock();
 							auto vec = GetVector3aim2(Config::Prediction2 ? true : false);
@@ -3085,7 +3000,7 @@ namespace OW {
 								}
 							}
 						}
-						if (Config::shooted2 && !GetAsyncKeyState(Config::aim_key2))
+						if (Config::shooted2 && !GetAsyncKeyState(get_bind_id(Config::aim_key2)))
 							Config::shooted2 = false;
 					}
 				}
@@ -3667,14 +3582,6 @@ namespace OW {
 					if (local_entity.HeroID != eHero::HERO_WIDOWMAKER && Config::widowautounscope) {
 						Config::widowautounscope = false;
 					}
-					/*if (timepassed - timetobegin >= 50000) {
-						_beginthread((_beginthread_proc_type)entity_scan_thread, 0, 0);
-						_beginthread((_beginthread_proc_type)entity_thread, 0, 0);
-						_beginthread((_beginthread_proc_type)viewmatrix_thread, 0, 0);
-						_beginthread((_beginthread_proc_type)aimbot_thread, 0, 0);
-						_beginthread((_beginthread_proc_type)overlay_thread, 0, 0);
-						timetobegin = GetTickCount();
-					}*/
 					Config::lastheroid = local_entity.HeroID;
 					Sleep(2);
 					std::string saveheroname = GetHeroEngNames(local_entity.HeroID, local_entity.LinkBase).c_str();

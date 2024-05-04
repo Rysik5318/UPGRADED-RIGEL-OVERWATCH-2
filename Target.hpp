@@ -89,8 +89,6 @@ namespace OW {
 		return std::pair<double, double>((m * d - c * n) / (a * d - c * b), (a * n - b * m) / (a * d - c * b));
 	}
 
-
-
 	inline Vector3 SmoothLinear(Vector3 LocalAngle, Vector3 TargetAngle, float speed)
 	{
 		float dist = LocalAngle.DistTo(TargetAngle);
@@ -601,11 +599,6 @@ namespace OW {
 							if (predit)
 							{
 								float dist = Vector3(viewMatrix_xor.get_location().x, viewMatrix_xor.get_location().y, viewMatrix_xor.get_location().z).DistTo(PreditPos);
-								//if (local_entity.HeroID == eHero::HERO_HANJO && GetLookUpSkill(0xC9) >= 0.5f)
-								//{
-								//	AimCorrection(&PreditPos, Vel, dist, 25.f + (85.f * GetLookUpSkill(0xC9)));
-								//}
-								//else
 								Vel = entities[TarGetIndex].velocity;
 								AimCorrection(&PreditPos, Vel, dist, Config::predit_level);
 								target = PreditPos;
@@ -619,7 +612,7 @@ namespace OW {
 					}
 				}
 			}
-		}
+		}	
 
 		//else
 		/* {
