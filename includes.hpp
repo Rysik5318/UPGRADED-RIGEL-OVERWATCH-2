@@ -198,19 +198,6 @@ namespace OW {
 		TYPE_STAT = 0x25,
 	};
 
-	std::vector < const char* > key_binds = { "none", "mouse1", "mouse2", "mouse3", "mouse4", "mouse5", "a",
-		"b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s",
-		"t", "u", "v", "w", "x", "y", "z", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "f1",
-		"f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10", "f11", "f12", "alt" };
-	const char* keys = (u8"X2");
-	const char* key_type[] = { (u8"LEFT"), (u8"RIGHT"),  (u8"MIDDLE"),  (u8"X1"),  (u8"X2") };
-
-	const char* keys2 = (u8"X1");
-	const char* key_type2[] = { (u8"LEFT"), (u8"RIGHT"),  (u8"MIDDLE"),  (u8"X1"),  (u8"X2") };
-
-	const char* keys3 = (u8"LEFT");
-	const char* key_type3[] = { (u8"LEFT"), (u8"RIGHT"),  (u8"Shift"),  (u8"E"),(u8"Q") };
-
 	const char* espop = (u8"关闭");
 	const char* espop_type[] = { (u8"关闭"), (u8"轮廓"),  (u8"模型"),  (u8"掩耳盗铃模式") };
 

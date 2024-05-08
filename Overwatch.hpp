@@ -738,7 +738,7 @@ namespace OW {
 		}
 		__except (1) {
 
-		}
+		}esp
 	}*/
 	inline void esp() {
 		ImDrawList* Draw = ImGui::GetForegroundDrawList();
@@ -1188,6 +1188,10 @@ namespace OW {
 		}
 	}
 	HWND hwnd;
+	std::vector < const char* > key_binds = { "none", "mouse1", "mouse2", "mouse3", "mouse4", "mouse5", "a",
+"b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s",
+"t", "u", "v", "w", "x", "y", "z", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "f1",
+"f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10", "f11", "f12", "alt" };
 	inline void overlay_thread() {
 			int tab_index = 5;
 			int subindex = 1;
@@ -1211,8 +1215,6 @@ namespace OW {
 
 			SetWindowPos(hwnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
 			SetWindowLong(hwnd, GWL_EXSTYLE, WS_EX_LAYERED | WS_EX_TRANSPARENT | WS_EX_NOACTIVATE);
-			
-			//SetWindowLong(hwnd, GWL_EXSTYLE, WS_EX_LAYERED | WS_EX_TRANSPARENT | WS_EX_TOOLWINDOW);
 
 			ShowWindow(hwnd, SW_SHOWDEFAULT);
 			UpdateWindow(hwnd);
@@ -1222,12 +1224,8 @@ namespace OW {
 			ImFont* ico = nullptr;
 			ImFont* ico234 = nullptr;
 			ImGuiIO& io = ImGui::GetIO(); (void)io;
-			//ImGuiIO* io = &ImGui::GetIO();
 			ImFontConfig font_cfg;
 			font_cfg.FontDataOwnedByAtlas = false;
-			//ImFont* font1 = io.Fonts->AddFontFromMemoryTTF((void*)tahoma, sizeof(tahoma), 20.f, &font_cfg);
-			//ImGui::MergeIconsWithLatestFont(16.f, false);
-			//ImFont* font2 = io.Fonts->AddFontFromFileTTF(".\\SimHei.ttf", 20.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
 			io.Fonts->AddFontFromMemoryTTF((void*)SimHei_data, sizeof(SimHei_data), 24.f, &font_cfg, io.Fonts->GetGlyphRangesChineseFull());
 			ImGui::MergeIconsWithLatestFont(25.f, false);
 			io.Fonts->AddFontFromMemoryTTF((void*)tahoma, sizeof(tahoma), 18.f, &font_cfg);
@@ -1613,7 +1611,7 @@ namespace OW {
 								}
 								ImGui::PopStyleColor(1);
 								ImGui::BulletText(skCrypt(u8"Keybind"));
-								ImGui::Combo("Keybind", &Config::aim_key, key_binds.data(), 55);
+								ImGui::Combo("Keybind", &Config::aim_key, key_binds.data(), key_binds.size());
 
 								ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.4f, 0.6f, 1.f, 1.0f));
 								ImGui::Spacing();
@@ -1795,10 +1793,10 @@ namespace OW {
 
 									ImGui::PopStyleColor(1);
 									ImGui::BulletText(skCrypt(u8"Keybind2"));
-									ImGui::Combo("Keybind2", &Config::aim_key2, key_binds.data(), 55);
+									ImGui::Combo("Keybind2", &Config::aim_key2, key_binds.data(), key_binds.size());
 
 									ImGui::BulletText(skCrypt(u8"Toggle button2"));
-									ImGui::Combo("Togglekey2", &Config::togglekey, key_binds.data(), 55);
+									ImGui::Combo("Togglekey2", &Config::togglekey, key_binds.data(), key_binds.size());
 
 									ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.f, 0.f, 0.f, 1.0f));
 									ImGui::Toggle(skCrypt(u8"Closest"), &Config::autobone2, ImGuiToggleFlags_Animated);
@@ -2038,6 +2036,7 @@ namespace OW {
 							ImGui::BulletText(skCrypt(u8"Risky"));
 							ImGui::PopStyleColor(1);
 						}
+						// Legit
 						if (tab_index == 4) {
 							ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.f, 0.f, 0.f, 1.0f));
 							ImGui::BulletText(skCrypt(u8"Play more legit"));
@@ -2058,6 +2057,7 @@ namespace OW {
 							ImGui::PopStyleColor(1);
 
 						}
+						// Misc
 						if (tab_index == 5) {
 							ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.f, 0.f, 0.f, 1.0f));
 
@@ -2079,6 +2079,9 @@ namespace OW {
 							ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.f, 0.f, 0.f, 1.0f));
 							ImGui::Toggle(skCrypt(u8"Auto Heal Skill (Soldier, Tracer and so on)"), &Config::AutoSkill, ImGuiToggleFlags_Animated);
 							ImGui::SliderFloat(skCrypt(u8"Auto Heal Skill Trigger HP"), &Config::SkillHealth, 0.f, 350.f, skCrypt("%.2f"));
+							ImGui::PopStyleColor(1);
+							ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.f, 0.f, 0.f, 1.0f));
+							ImGui::Toggle(skCrypt(u8"Anti AFK"), &Config::AntiAFK, ImGuiToggleFlags_Animated);
 							ImGui::PopStyleColor(1);
 							
 							if (ImGui::Button(u8"Manual Save"))
@@ -2109,13 +2112,13 @@ namespace OW {
 					}
 					ImGui::End();
 				}
-				__try {
 				if (entities.size() > 0)
-					esp();
-						}
-						__except (1)
-						{
-						}
+				{
+					__try {
+						esp();
+					}
+					__except(1){}
+				}
 				ImGui::EndFrame();
 				ImGui::Render();
 				g_pd3dDeviceContext->OMSetRenderTargets(1, &g_mainRenderTargetView, NULL);
@@ -2144,6 +2147,11 @@ namespace OW {
 			Vector2 CrossHair = Vector2(GetSystemMetrics(SM_CXSCREEN) / 2.0f, GetSystemMetrics(SM_CYSCREEN) / 2.0f);
 			static float origin_sens = 0.f;
 			while (true) {
+				if (Config::AntiAFK) 
+				{	
+					SetKey(0x57);
+					Sleep(1000);
+				}
 				if (entities.size() > 0) {
 					if (SDK->RPM<float>(GetSenstivePTR()))
 						origin_sens = SDK->RPM<float>(GetSenstivePTR());
@@ -3075,6 +3083,8 @@ namespace OW {
 						WritePrivateProfileString(_T(GetHeroEngNames(Config::lastheroid, local_entity.LinkBase).c_str()), _T("SkillHealth"), bufsave, _T(".\\config.ini"));
 						_stprintf(bufsave, _T("%d"), (int)Config::AutoSkill);
 						WritePrivateProfileString(_T(GetHeroEngNames(Config::lastheroid, local_entity.LinkBase).c_str()), _T("AutoSkill"), bufsave, _T(".\\config.ini"));
+						_stprintf(bufsave, _T("%d"), (int)Config::AntiAFK);
+						WritePrivateProfileString(_T(GetHeroEngNames(Config::lastheroid, local_entity.LinkBase).c_str()), _T("AntiAFK"), bufsave, _T(".\\config.ini"));
 
 						int dec = 0;
 						if (Config::Tracking) dec = 0;
@@ -3361,7 +3371,8 @@ namespace OW {
 
 					Config::AutoSkill = GetPrivateProfileInt(_T(GetHeroEngNames(local_entity.HeroID, local_entity.LinkBase).c_str()), _T("AutoSkill"), 0, _T(".\\config.ini"));
 					Config::SkillHealth = GetPrivateProfileInt(_T(GetHeroEngNames(local_entity.HeroID, local_entity.LinkBase).c_str()), _T("SkillHealth"), 150, _T(".\\config.ini"));
-					
+					Config::AntiAFK = GetPrivateProfileInt(_T(GetHeroEngNames(local_entity.HeroID, local_entity.LinkBase).c_str()), _T("AntiAFK"), 0, _T(".\\config.ini"));
+
 					Config::norecoil = GetPrivateProfileInt(_T(GetHeroEngNames(local_entity.HeroID, local_entity.LinkBase).c_str()), _T("norecoil"), 0, _T(".\\config.ini"));
 					Config::recoilnum = float(GetPrivateProfileInt(_T(GetHeroEngNames(local_entity.HeroID, local_entity.LinkBase).c_str()), _T("recoilnum"), 1000, _T(".\\config.ini"))) / 10000.f;
 					Config::accvalue = float(GetPrivateProfileInt(_T(GetHeroEngNames(local_entity.HeroID, local_entity.LinkBase).c_str()), _T("accvalue"), 7500, _T(".\\config.ini"))) / 10000.f;
@@ -3465,63 +3476,6 @@ namespace OW {
 					Config::aiaim = GetPrivateProfileInt(_T(GetHeroEngNames(local_entity.HeroID, local_entity.LinkBase).c_str()), _T("aiaim"), 0, _T(".\\config.ini"));
 					Config::hanzoautospeed = GetPrivateProfileInt(_T(GetHeroEngNames(local_entity.HeroID, local_entity.LinkBase).c_str()), _T("hanzoautospeed"), 0, _T(".\\config.ini"));
 					Config::highPriority = GetPrivateProfileInt(_T(GetHeroEngNames(local_entity.HeroID, local_entity.LinkBase).c_str()), _T("highPriority"), 0, _T(".\\config.ini"));
-
-					switch (Config::aim_key)
-					{
-					case VK_LBUTTON:
-						keys = key_type[0];
-						break;
-					case VK_RBUTTON:
-						keys = key_type[1];
-						break;
-					case VK_MBUTTON:
-						keys = key_type[2];
-						break;
-					case VK_XBUTTON1:
-						keys = key_type[3];
-						break;
-					case VK_XBUTTON2:
-						keys = key_type[4];
-						break;
-					}
-
-					switch (Config::aim_key2)
-					{
-					case VK_LBUTTON:
-						keys2 = key_type2[0];
-						break;
-					case VK_RBUTTON:
-						keys2 = key_type2[1];
-						break;
-					case VK_MBUTTON:
-						keys2 = key_type2[2];
-						break;
-					case VK_XBUTTON1:
-						keys2 = key_type2[3];
-						break;
-					case VK_XBUTTON2:
-						keys2 = key_type2[4];
-						break;
-					}
-
-					switch (Config::togglekey)
-					{
-					case 0:
-						keys3 = key_type3[0];
-						break;
-					case 1:
-						keys3 = key_type3[1];
-						break;
-					case 2:
-						keys3 = key_type3[2];
-						break;
-					case 3:
-						keys3 = key_type3[3];
-						break;
-					case 4:
-						keys3 = key_type3[4];
-						break;
-					}
 
 					int dec1 = 0;
 					dec1 = GetPrivateProfileInt(_T(GetHeroEngNames(local_entity.HeroID, local_entity.LinkBase).c_str()), _T("Aim Mode"), 0, _T(".\\config.ini"));
@@ -3646,6 +3600,8 @@ namespace OW {
 				WritePrivateProfileString(_T(GetHeroEngNames(Config::lastheroid, local_entity.LinkBase).c_str()), _T("SkillHealth"), bufsave, _T(".\\config.ini"));
 				_stprintf(bufsave, _T("%d"), (int)Config::AutoSkill);
 				WritePrivateProfileString(_T(GetHeroEngNames(Config::lastheroid, local_entity.LinkBase).c_str()), _T("AutoSkill"), bufsave, _T(".\\config.ini"));
+				_stprintf(bufsave, _T("%d"), (int)Config::AntiAFK);
+				WritePrivateProfileString(_T(GetHeroEngNames(Config::lastheroid, local_entity.LinkBase).c_str()), _T("AntiAFK"), bufsave, _T(".\\config.ini"));
 
 				int dec = 0;
 				if (Config::Tracking) dec = 0;

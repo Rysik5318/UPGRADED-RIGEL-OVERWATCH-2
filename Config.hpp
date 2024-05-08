@@ -174,6 +174,7 @@ namespace OW {
 		float recoilnum = 0.f;
 		bool norecoil = false;
 		bool horizonreco = false;
+		bool AntiAFK = false;
 
 		/* AutoRMB Misc */
 		bool AutoRMB = false;
