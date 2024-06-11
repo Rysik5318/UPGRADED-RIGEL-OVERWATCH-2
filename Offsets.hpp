@@ -2,26 +2,21 @@
 
 namespace OW {
 	namespace offset {
-
-		static constexpr auto Address_viewmatrix_base = 0x379AB38;
-		static constexpr auto Address_viewmatrix_base_test = 0x3E58E58;
-		static constexpr auto Address_entity_base = 0x3785FD0;
-		static constexpr auto offset_viewmatrix_ptr = 0x7E0;
-		static constexpr auto offset_viewmatrix_xor_key = 0x309215E24ABB580A;
-		static constexpr auto HeapManager = 0x3858A10;
-		static constexpr auto HeapManager_Var = 0x383D48A;
-		static constexpr auto HeapManager_Key = 0xFFCA423AE840244C;
-		static constexpr auto HeapManager_Pointer = 0x160;
-		static constexpr auto changefov = 0x39020E8;
-		static constexpr auto GetKeyAdd = 0x1EC7A5B;
-		static constexpr auto GetKeyAddRIP = 0x5;
-		static constexpr auto GlowESP = 0x237B296;
+		static constexpr auto Address_viewmatrix_base = 0x37F7618; //viewmatrix xor
+		static constexpr auto Address_viewmatrix_base_test = 0x3EB6278; //viewmatrix
+		static constexpr auto Address_entity_base = 0x37E2AC0; //entityadmin/list
+		static constexpr auto offset_viewmatrix_ptr = 0x7E0; //pointer
+		static constexpr auto offset_viewmatrix_xor_key = 0x544A3BA5BE911EE7; //vm key
+		static constexpr auto HeapManager = 0x38B55F0; //heapmanagervar
+		static constexpr auto HeapManager_Var = 0x3899DD5; //heapmanager
+		static constexpr auto HeapManager_Key = 0xE7E1F898E11B68B1; //
+		static constexpr auto HeapManager_Pointer = 0x160; //
+		static constexpr auto changefov = 0x395EDB8; //myFOV
+		static constexpr auto Silent = 0xF909A5; //
 		static constexpr auto SensitivePtr = 0x2054;
-		static constexpr auto VisFN = 0x78BE12;
-		static constexpr auto VisRead = 0x383DB40;
-		static constexpr auto Vis_Key = 0x37100BDEF61F08F7;
-		static constexpr auto OutlineFN = 0x794912;
-		static constexpr auto OutlineRead = 0x383DB40;
-		static constexpr auto Outline_Key = 0x69F1F24995F6D73F;
+		static constexpr auto VisFN = 0x79E722; //
+		static constexpr auto Vis_Key = 0x1AAC46FF0D473EBA; //
+		static constexpr auto OutlineFN = 0x7A7AD2; //
+		static constexpr auto Outline_Key = 0x6F3C13FEBA1E4DFE; //
 	}
 }

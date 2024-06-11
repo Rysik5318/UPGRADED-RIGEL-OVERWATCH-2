@@ -61,110 +61,110 @@ namespace OW {
 		switch (HeroID)
 		{
 		case eHero::HERO_REAPER:
-			return skCrypt(u8"死神").decrypt();
+			return skCrypt(u8"ËÀÉñ").decrypt();
 		case eHero::HERO_TRACER:
-			return skCrypt(u8"猎空").decrypt();
+			return skCrypt(u8"ÁÔ¿Õ").decrypt();
 		case eHero::HERO_MERCY:
-			return skCrypt(u8"天使").decrypt();
+			return skCrypt(u8"ÌìÊ¹").decrypt();
 		case eHero::HERO_HANJO:
-			return skCrypt(u8"半藏").decrypt();
+			return skCrypt(u8"°ë²Ø").decrypt();
 		case eHero::HERO_TORBJORN:
-			return skCrypt(u8"托比昂").decrypt();
+			return skCrypt(u8"ÍÐ±È°º").decrypt();
 		case eHero::HERO_REINHARDT:
-			return skCrypt(u8"莱因哈特").decrypt();
+			return skCrypt(u8"À³Òò¹þÌØ").decrypt();
 		case eHero::HERO_PHARAH:
-			return skCrypt(u8"法老之鹰").decrypt();
+			return skCrypt(u8"·¨ÀÏÖ®Ó¥").decrypt();
 		case eHero::HERO_WINSTON:
-			return skCrypt(u8"温斯顿").decrypt();
+			return skCrypt(u8"ÎÂË¹¶Ù").decrypt();
 		case eHero::HERO_WIDOWMAKER:
-			return skCrypt(u8"黑百合").decrypt();
+			return skCrypt(u8"ºÚ°ÙºÏ").decrypt();
 		case eHero::HERO_BASTION:
-			return skCrypt(u8"堡垒").decrypt();
+			return skCrypt(u8"±¤ÀÝ").decrypt();
 		case eHero::HERO_SYMMETRA:
-			return skCrypt(u8"秩序之光").decrypt();
+			return skCrypt(u8"ÖÈÐòÖ®¹â").decrypt();
 		case eHero::HERO_ZENYATTA:
-			return skCrypt(u8"禅雅塔").decrypt();
+			return skCrypt(u8"ìøÑÅËþ").decrypt();
 		case eHero::HERO_GENJI:
-			return skCrypt(u8"源氏").decrypt();
+			return skCrypt(u8"Ô´ÊÏ").decrypt();
 		case eHero::HERO_ROADHOG:
-			return skCrypt(u8"路霸").decrypt();
+			return skCrypt(u8"Â·°Ô").decrypt();
 		case eHero::HERO_MCCREE:
-			return skCrypt(u8"麦克雷").decrypt();
+			return skCrypt(u8"Âó¿ËÀ×").decrypt();
 		case eHero::HERO_JUNKRAT:
-			return skCrypt(u8"狂鼠").decrypt();
+			return skCrypt(u8"¿ñÊó").decrypt();
 		case eHero::HERO_ZARYA:
-			return skCrypt(u8"查莉娅").decrypt();
+			return skCrypt(u8"²éÀòæ«").decrypt();
 		case eHero::HERO_SOLDIER76:
-			return skCrypt(u8"士兵76").decrypt();
+			return skCrypt(u8"Ê¿±ø76").decrypt();
 		case eHero::HERO_LUCIO:
-			return skCrypt(u8"卢西奥").decrypt();
+			return skCrypt(u8"Â¬Î÷°Â").decrypt();
 		case eHero::HERO_DVA:
 			if (SDK->RPM<uint16_t>(LinkBase + 0xD4) != SDK->RPM<uint16_t>(LinkBase + 0xD8))
 				return skCrypt(u8"D.Va").decrypt();
 			else
-				return skCrypt(u8"哈娜").decrypt();
+				return skCrypt(u8"¹þÄÈ").decrypt();
 		case eHero::HERO_VENTURE:
-			return skCrypt(u8"卢西�").decrypt();
+			return skCrypt(u8"Â¬Î÷°").decrypt();
 		case eHero::HERO_MEI:
-			return skCrypt(u8"美").decrypt();
+			return skCrypt(u8"ÃÀ").decrypt();
 		case eHero::HERO_ANA:
-			return skCrypt(u8"安娜").decrypt();
+			return skCrypt(u8"°²ÄÈ").decrypt();
 		case eHero::HERO_SOMBRA:
-			return skCrypt(u8"黑影").decrypt();
+			return skCrypt(u8"ºÚÓ°").decrypt();
 		case eHero::HERO_ORISA:
-			return skCrypt(u8"奥丽莎").decrypt();
+			return skCrypt(u8"°ÂÀöÉ¯").decrypt();
 		case eHero::HERO_DOOMFIST:
-			return skCrypt(u8"末日铁� ").decrypt();
+			return skCrypt(u8"Ä©ÈÕÌúÈ ").decrypt();
 		case eHero::HERO_MOIRA:
-			return skCrypt(u8"莫伊� ").decrypt();
+			return skCrypt(u8"ÄªÒÁÀ ").decrypt();
 		case eHero::HERO_BRIGITTE:
-			return skCrypt(u8"布里吉塔").decrypt();
+			return skCrypt(u8"²¼Àï¼ªËþ").decrypt();
 		case eHero::HERO_WRECKINGBALL:
-			return skCrypt(u8"破坏球").decrypt();
+			return skCrypt(u8"ÆÆ»µÇò").decrypt();
 		case eHero::HERO_SOJOURN:
-			return skCrypt(u8"索杰恩").decrypt();
+			return skCrypt(u8"Ë÷½Ü¶÷").decrypt();
 		case eHero::HERO_ASHE:
-			return skCrypt(u8"艾什").decrypt();
+			return skCrypt(u8"°¬Ê²").decrypt();
 		case eHero::HERO_BAPTISTE:
-			return skCrypt(u8"巴蒂斯特").decrypt();
+			return skCrypt(u8"°ÍµÙË¹ÌØ").decrypt();
 		case eHero::HERO_KIRIKO:
-			return skCrypt(u8"雾子").decrypt();
+			return skCrypt(u8"Îí×Ó").decrypt();
 		case eHero::HERO_JUNKERQUEEN:
-			return skCrypt(u8"渣客女王").decrypt();
+			return skCrypt(u8"Ôü¿ÍÅ®Íõ").decrypt();
 		case eHero::HERO_SIGMA:
-			return skCrypt(u8"西格玛").decrypt();
+			return skCrypt(u8"Î÷¸ñÂê").decrypt();
 		case eHero::HERO_ECHO:
-			return skCrypt(u8"回声").decrypt();
+			return skCrypt(u8"»ØÉù").decrypt();
 		case eHero::HERO_RAMATTRA:
-			return skCrypt(u8"� 玛刹").decrypt();
+			return skCrypt(u8"À ÂêÉ²").decrypt();
 		case eHero::HERO_TRAININGBOT1:
-			return skCrypt(u8"标准机器人").decrypt();
+			return skCrypt(u8"±ê×¼»úÆ÷ÈË").decrypt();
 		case eHero::HERO_TRAININGBOT2:
-			return skCrypt(u8"重装机器人").decrypt();
+			return skCrypt(u8"ÖØ×°»úÆ÷ÈË").decrypt();
 		case eHero::HERO_TRAININGBOT3:
-			return skCrypt(u8"狙击机器人").decrypt();
+			return skCrypt(u8"¾Ñ»÷»úÆ÷ÈË").decrypt();
 		case eHero::HERO_TRAININGBOT4:
-			return skCrypt(u8"友方机器人").decrypt();
+			return skCrypt(u8"ÓÑ·½»úÆ÷ÈË").decrypt();
 		case eHero::HERO_TRAININGBOT5:
-			return skCrypt(u8"友方重装机器人").decrypt();
+			return skCrypt(u8"ÓÑ·½ÖØ×°»úÆ÷ÈË").decrypt();
 		case eHero::HERO_TRAININGBOT6:
-			return skCrypt(u8"火箭机器人").decrypt();
+			return skCrypt(u8"»ð¼ý»úÆ÷ÈË").decrypt();
 		case eHero::HERO_TRAININGBOT7:
-			return skCrypt(u8"训练机器人").decrypt();
+			return skCrypt(u8"ÑµÁ·»úÆ÷ÈË").decrypt();
 		case eHero::HERO_LIFEWEAVER:
-			return skCrypt(u8"生命之梭").decrypt();
+			return skCrypt(u8"ÉúÃüÖ®Ëó").decrypt();
 		case eHero::TOBTERT:
-			return skCrypt(u8"炮台").decrypt();
+			return skCrypt(u8"ÅÚÌ¨").decrypt();
 		case eHero::SYMTERT:
-			return skCrypt(u8"摄像头").decrypt();
+			return skCrypt(u8"ÉãÏñÍ·").decrypt();
 		case eHero::HERO_ILLARI:
-			return skCrypt(u8"伊� 锐").decrypt();
+			return skCrypt(u8"ÒÁÀ Èñ").decrypt();
 		case eHero::HERO_MAUGA:
-			return skCrypt(u8"毛加").decrypt();
+			return skCrypt(u8"Ã«¼Ó").decrypt();
 		case eHero::Bob:
-			return skCrypt(u8"鲍勃").decrypt();
+			return skCrypt(u8"±«²ª").decrypt();
 		default:
-			return skCrypt(u8"未知").decrypt();
+			return skCrypt(u8"Î´Öª").decrypt();
 		}
 
 	}
@@ -300,30 +300,27 @@ namespace OW {
 		*a4 = componentid / 0x3F;
 	}
 
-	uintptr_t DecryptComponent(uintptr_t parent, uint8_t idx) {
-		__try {
-				uintptr_t v1 = parent;
-				uintptr_t v2 = (uintptr_t)1 << (uintptr_t)(idx & 0x3F);
-				uintptr_t v3 = v2 - 1;
-				uintptr_t v4 = idx & 0x3F;
-				uintptr_t v5 = idx / 0x3F;
-				uintptr_t v6 = SDK->RPM<uintptr_t>((v1 + 8 * (uint32_t)v5 + 0x110));
-				uintptr_t v7 = (v2 & SDK->RPM<uintptr_t>((v1 + 8 * (uint32_t)v5 + 0x110))) >> v4;
-				uintptr_t v8 = (v3 & v6) - (((v3 & v6) >> 1) & 0x5555555555555555);
-				uintptr_t v9 = SDK->RPM<uintptr_t>((SDK->RPM<uintptr_t>((v1 + 0x80)) + 8 * (SDK->RPM<uint8_t>(((uint32_t)v5 + v1 + 0x130)) + ((0x101010101010101 * (((v8 & 0x3333333333333333) + ((v8 >> 2) & 0x3333333333333333) + (((v8 & 0x3333333333333333) + ((v8 >> 2) & 0x3333333333333333)) >> 4)) & 0xF0F0F0F0F0F0F0F)) >> 0x38))));
-				uintptr_t key1 = SDK->GlobalKey1;
-				uintptr_t key2 = SDK->GlobalKey2;
 
-				uintptr_t dummy1 = SDK->RPM<uintptr_t>(SDK->dwGameBase + 0x383CB20 + (key1 >> 0x34));
-				uintptr_t dummy2 = SDK->RPM<uintptr_t>(SDK->dwGameBase + 0x383CB20 + (key1 & 0xFFF));
-				uintptr_t v10 = (unsigned int)v9 | v9 & 0xFFFFFFFF00000000ui64 ^ ((unsigned __int64)(2 * __ROR4__(dummy2, 3) - (unsigned int)v9) << 0x20);;
-				uintptr_t v11 = key2 ^ ((unsigned int)v10 | v10 & 0xFFFFFFFF00000000ui64 ^ ((unsigned __int64)(0x837BDC34 - (unsigned int)v10) << 0x20));
-				uintptr_t v12 = (unsigned int)v11 | v11 & 0xFFFFFFFF00000000ui64 ^ ((unsigned __int64)(unsigned int)(v11 + __ROL4__(dummy1, 1)) << 0x20);
-				uintptr_t v13 = -(int)v7 & ((unsigned int)v12 | v12 & 0xFFFFFFFF00000000ui64 ^ (((unsigned int)v12 ^ HIDWORD(dummy2)) << 0x20));
-				return v13;
-		}
-		__except (EXCEPTION_EXECUTE_HANDLER) {}
-		return NULL;
+	inline uintptr_t DecryptComponent(uintptr_t parent, uint8_t idx)
+	{
+		unsigned __int64 v1 = parent;
+		unsigned __int64 v2 = (uintptr_t)1 << (uintptr_t)(idx & 0x3F);
+		unsigned __int64 v3 = v2 - 1;
+		unsigned __int64 v4 = idx & 0x3F;
+		unsigned __int64 v5 = idx / 0x3F;
+		unsigned __int64 v6 = SDK->RPM<uintptr_t>((v1 + 8 * (uint32_t)v5 + 0x110));
+		unsigned __int64 v7 = (v2 & SDK->RPM<uintptr_t>((v1 + 8 * (uint32_t)v5 + 0x110))) >> v4;
+		unsigned __int64 v8 = (v3 & v6) - (((v3 & v6) >> 1) & 0x5555555555555555);
+		unsigned __int64 v9 = SDK->RPM<uintptr_t>((SDK->RPM<uintptr_t>((v1 + 0x80)) + 8 * (SDK->RPM<uint8_t>(((uint32_t)v5 + v1 + 0x130)) + ((0x101010101010101 * (((v8 & 0x3333333333333333) + ((v8 >> 2) & 0x3333333333333333) + (((v8 & 0x3333333333333333) + ((v8 >> 2) & 0x3333333333333333)) >> 4)) & 0xF0F0F0F0F0F0F0F)) >> 0x38))));
+		unsigned __int64 Key1 = SDK->GlobalKey1;
+		unsigned __int64 Key2 = SDK->GlobalKey2;
+		auto dummy = SDK->RPM<_QWORD>(SDK->dwGameBase + 0x38996E0 + (Key1 >> 0x34));
+		auto dummy2 = SDK->RPM<_QWORD>(SDK->dwGameBase + 0x38996E0 + (Key1 & 0xFFF));
+		unsigned __int64 v10 = (unsigned int)v9 | v9 & 0xFFFFFFFF00000000ui64 ^ ((unsigned __int64)((unsigned int)v9 + 0x71747EF8) << 0x20);
+		unsigned __int64 v11 = Key2 ^ ((unsigned int)v9 | v10 & 0xFFFFFFFF00000000ui64 ^ ((unsigned __int64)(unsigned int)(v10 + __ROL4__(HIDWORD(dummy), 1)) << 0x20));
+		unsigned __int64 v12 = -(int)v7 & ((unsigned int)v11 | ((unsigned int)v11 | v11 & 0xFFFFFFFF00000000ui64 ^ ((unsigned __int64)((unsigned int)v11 ^ ~(unsigned int)dummy2) << 0x20)) & 0xFFFFFFFF00000000ui64 ^ ((unsigned __int64)((unsigned int)v11 ^ 0xDFBFA250) << 0x20));
+
+		return v12;
 	}
 
 	inline unsigned __int64 __fastcall DecryptVis(unsigned __int64 a1)
@@ -341,8 +338,8 @@ namespace OW {
 
 		v2 = (SDK->dwGameBase + offset::VisFN);
 		v3 = v2 + 0x8;
-		v4 = SDK->RPM<_QWORD>(SDK->dwGameBase + 0x383DB40 + 8ull * (((uint8_t)a1 + 9) & 0x7F)
-			+ (((unsigned __int64)(a1 - offset::Vis_Key) >> 7) & 7)) ^ v2 ^ (a1 - offset::Vis_Key);
+		v4 = SDK->RPM<_QWORD>(SDK->dwGameBase + 0x389A700 + 8ull * (((uint8_t)a1 - 0x46) & 0x7F) //a1 +- offset
+			+ (((unsigned __int64)(a1 + offset::Vis_Key) >> 7) & 7)) ^ v2 ^ (a1 + offset::Vis_Key); // a1 +- viskey1
 		v5 = 0i64;
 		v6 = (v3 - v2 + 7) >> 3;
 		if (v2 > v3)
@@ -356,7 +353,7 @@ namespace OW {
 			{
 				v5 += 4i64;
 				v8 = _mm_xor_si128(v8, _mm_loadu_si128((const __m128i*)v2));
-				v10 = _mm_loadu_si128((const __m128i*)(v2 + 0x10));
+				v10 = _mm_loadu_si128((const __m128i*)(v2 + 0x10)); //
 				v2 += 0x20i64;
 				v9 = _mm_xor_si128(v9, v10);
 			} while (v5 < v7);
@@ -366,7 +363,7 @@ namespace OW {
 		}
 		for (; v2 < v3; v2 += 8i64)
 			v4 ^= SDK->RPM<_QWORD>(v2);
-		return v4 ^ ~v3 ^ 0x0C8EFF42109E0F709i64;
+		return v4 ^ ~v3 ^ 0x1AAC46FF0D473EBA; //viskey 2
 	}
 
 	uintptr_t GetHeapManager(uint8_t index) {
@@ -608,7 +605,7 @@ namespace OW {
 		v7 = SkillStructCheck(v5, v4);
 		if (!v7)
 			return 0i64;
-		v6 = SDK->RPM<uintptr_t>(v7 + 168);
+		v6 = SDK->RPM<uintptr_t>(v7 + 0xB8); //0xA8, testing 0xB8
 	LABEL_6:
 		v8 = v3[1];
 		v9 = 32 * ((v3[1] & 0xF) + 1i64);
@@ -643,6 +640,21 @@ namespace OW {
 		if (!skill)
 			return false;
 		return ret;
+	}
+
+	inline float GetSkill(uint64_t base, uint16_t skillIdx, uint16_t skillIdx2, uint16_t offset)
+	{
+		__m128 skillStruct{};
+		uint16_t skillId[15] = { skillIdx, skillIdx2 };
+		skillStruct.m128_u64[1] = base + 0xD0; // 110
+		uint64_t skill = FnSkillStruct(&skillStruct, skillId);
+		if (!skill)
+		{
+			return false;
+		}
+		float ret = SDK->RPM<float>(skill + offset);
+		if (ret != 0.f) return ret;
+		else return 0;
 	}
 
 	inline float readskillcd(uint64_t base, uint16_t skillIdx, uint16_t skillIdx2)
@@ -738,8 +750,8 @@ namespace OW {
 		v2 = (SDK->dwGameBase + offset::OutlineFN);
 		v3 = v2 + 0x8;
 		v4 = 0i64;
-		v5 = SDK->RPM<uintptr_t>(SDK->dwGameBase + 0x383DB40 + 8ull * (((uint8_t)a1 - 0x3F) & 0x7F)
-			+ (((unsigned __int64)(a1 - offset::Outline_Key) >> 7) & 7)) ^ v2 ^ (a1 - offset::Outline_Key);
+		v5 = SDK->RPM<uintptr_t>(SDK->dwGameBase + 0x389A700 + 8ull * (((uint8_t)a1 - 0x2) & 0x7F) //a1 +- offset
+			+ (((unsigned __int64)(a1 + offset::Outline_Key) >> 7) & 7)) ^ v2 ^ (a1 + offset::Outline_Key); // a1 +- outline key1
 		v6 = (v3 - v2 + 7) >> 3;
 		if (v2 > v3)
 			v6 = 0i64;
@@ -762,7 +774,7 @@ namespace OW {
 		}
 		for (; v2 < v3; v2 += 8i64)
 			v5 ^= SDK->RPM<_QWORD>(v2);
-		return v5 ^ ~v3 ^ 0x0960E0DB66A0928C1i64;
+		return v5 ^ ~v3 ^ 0x6F3C13FEBA1E4DFE; //outline key 2
 	}
 
 	inline void SetBorderLine(uint32_t BorderType, DWORD_PTR base)
